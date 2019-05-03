@@ -1,3 +1,35 @@
 <resources>
     <string name="app_name">EasyFit</string>
+    <string name="home">Strona główna</string>
+    <string name="products">Produkty</string>
+    <string name="history">Historia</string>
+    <string name="notifications">Przypomnienia</string>
+    <string name="goals">Cele</string>
+
+    <string name="meals">Posiłki</string>
+
+    <string name="avatarDesc">Awatar użytkownika</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="simpleProducts">
+        <item>Ogórek</item>
+        <item>Ser</item>
+    </string-array>
+
+    <string-array name="simpleProductsCalories">
+        <item>12</item>
+        <item>24</item>
+    </string-array>
+
+    <string-array name="meals">
+        <item>Schabowy</item>
+        <item>Zupa</item>
+    </string-array>
+
+
 </resources>
