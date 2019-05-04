@@ -12,15 +12,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.easyfit.notifications.NotificationManager;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
     NavigationView navigationView;
+//    private NotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //setting up a notification manager
+//        this.notificationManager = NotificationManager.getInstance();
 
         //setting up a toolbar instead of action bar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -85,4 +91,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            }
         }
     }
+
+//    public NotificationManager getNotificationManager(){
+//        return this.notificationManager;
+//    }
 }
