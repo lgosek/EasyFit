@@ -1,8 +1,11 @@
 package com.example.easyfit;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -17,6 +20,9 @@ import android.widget.Toast;
 import com.example.easyfit.notifications.NotificationManager;
 
 import java.sql.Time;
+import java.util.Calendar;
+
+import static android.content.Context.ALARM_SERVICE;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationHolder> {
 
@@ -86,7 +92,19 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     //Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
-                    NotificationManager.getInstance().delete(Time.valueOf(time.getText().toString()+":00"));
+                    Time t = Time.valueOf(time.getText().toString()+":00");
+                    long tt = t.getTime();
+
+
+                    AlarmManager alarmManager = (AlarmManager)(context.getSystemService(ALARM_SERVICE));
+
+                    Intent i1 = new Intent();
+                    i1.setAction("com.example.easyfit.NOTIFICATION");
+
+                    PendingIntent pd = PendingIntent.getBroadcast(context, (int)tt, i1, 0);
+                    alarmManager.cancel(pd);
+
+                    NotificationManager.getInstance().delete(t);
                     NotificationAdapter.super.notifyDataSetChanged();
                     return true;
                 }
@@ -100,8 +118,38 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 hr = hourOfDay;
                 min = minutes;
                 String time = new StringBuilder().append(hr).append(":").append(min).append(":00").toString();
-                NotificationManager.getInstance().edit(Time.valueOf(NotificationHolder.this.time.getText().toString()+":00"), Time.valueOf(time));
+
+                Time t = Time.valueOf(NotificationHolder.this.time.getText().toString()+":00");
+                long tt = t.getTime();
+
+                // deleting alarm
+                AlarmManager alarmManager = (AlarmManager)(context.getSystemService(ALARM_SERVICE));
+
+                Intent i1 = new Intent();
+                i1.setAction("com.example.easyfit.NOTIFICATION");
+
+                PendingIntent pd = PendingIntent.getBroadcast(context, (int)tt, i1, 0);
+                alarmManager.cancel(pd);
+
+                //setting up a new alarm
+
+                Calendar c = Calendar.getInstance();
+                c.set(Calendar.HOUR_OF_DAY, hr);
+                c.set(Calendar.MINUTE, min);
+                long triggerTime = c.getTimeInMillis();
+
+                pd = PendingIntent.getBroadcast(context, (int)Time.valueOf(time).getTime(), i1, 0);
+                alarmManager.setRepeating(AlarmManager.RTC, triggerTime, AlarmManager.INTERVAL_DAY, pd);
+
+                // rest
+                NotificationManager.getInstance().edit(t, Time.valueOf(time));
                 NotificationAdapter.super.notifyDataSetChanged();
+
+
+
+
+
+
             }
         };
     }

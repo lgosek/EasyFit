@@ -70,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 NotificationManager.getInstance().add(Time.valueOf(s));
             }
         }
+
+        if(sh.getBoolean("edited", false)){
+            Toast.makeText(this, "changed", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

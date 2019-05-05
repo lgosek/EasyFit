@@ -31,11 +31,13 @@ public class NotificationManager {
 
     }
 
-    public void add(Time t){
+    public boolean add(Time t){
         if(!this.notificationTimes.contains(t)) {
             this.notificationTimes.add(t);
             Collections.sort(this.notificationTimes, new Comparator());
+            return true;
         }
+        return false;
     }
 
     public void edit(Time ol, Time ne){
