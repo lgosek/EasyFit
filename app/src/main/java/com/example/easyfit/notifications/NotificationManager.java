@@ -3,8 +3,10 @@ package com.example.easyfit.notifications;
 import java.sql.Time;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class NotificationManager {
     private LinkedList<Time> notificationTimes;
@@ -22,10 +24,10 @@ public class NotificationManager {
 
     private NotificationManager(){
         this.notificationTimes = new LinkedList<>();
-        this.notificationTimes.add(Time.valueOf("12:24:00"));
-        this.notificationTimes.add(Time.valueOf("13:56:00"));
-        this.notificationTimes.add(Time.valueOf("18:12:00"));
-        this.notificationTimes.add(Time.valueOf("19:24:00"));
+//        this.notificationTimes.add(Time.valueOf("12:24:00"));
+//        this.notificationTimes.add(Time.valueOf("13:56:00"));
+//        this.notificationTimes.add(Time.valueOf("18:12:00"));
+//        this.notificationTimes.add(Time.valueOf("19:24:00"));
 
     }
 
@@ -51,6 +53,14 @@ public class NotificationManager {
 
     public int getLength(){
         return this.notificationTimes.size();
+    }
+
+    public Set<String> getSet(){
+        Set<String> result = new HashSet<>();
+        for (Time t:this.notificationTimes) {
+            result.add(t.toString());
+        }
+        return result;
     }
 
     private class Comparator implements java.util.Comparator<Time>{

@@ -1,5 +1,6 @@
 package com.example.easyfit;
 
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -14,10 +15,16 @@ import android.widget.Toast;
 
 import com.example.easyfit.notifications.NotificationManager;
 
+import java.sql.Time;
+import java.util.HashSet;
+import java.util.Set;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
     NavigationView navigationView;
+
+    private final String sharedPreferencesFileName = "com.example.easyfit.sharedpreferences";
 //    private NotificationManager notificationManager;
 
     @Override
@@ -49,6 +56,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.navHome);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences sh = getSharedPreferences(this.sharedPreferencesFileName, MODE_PRIVATE);
+        Set<String> set = sh.getStringSet("notificationTimes", null);
+
+        if(set != null){
+            for (String s:set) {
+                NotificationManager.getInstance().add(Time.valueOf(s));
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences sh = getSharedPreferences(this.sharedPreferencesFileName, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sh.edit();
+        editor.putStringSet("notificationTimes", NotificationManager.getInstance().getSet());
+        editor.apply();
     }
 
     @Override
