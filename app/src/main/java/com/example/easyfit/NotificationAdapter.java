@@ -133,13 +133,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
                 //setting up a new alarm
 
-                Calendar c = Calendar.getInstance();
-                c.set(Calendar.HOUR_OF_DAY, hr);
-                c.set(Calendar.MINUTE, min);
-                long triggerTime = c.getTimeInMillis();
+//                Calendar c = Calendar.getInstance();
+//                c.set(Calendar.HOUR_OF_DAY, hr);
+//                c.set(Calendar.MINUTE, min);
+//                long triggerTime = c.getTimeInMillis();
+//
+//                pd = PendingIntent.getBroadcast(context, (int)Time.valueOf(time).getTime(), i1, 0);
+//                alarmManager.setRepeating(AlarmManager.RTC, triggerTime, AlarmManager.INTERVAL_DAY, pd);
 
-                pd = PendingIntent.getBroadcast(context, (int)Time.valueOf(time).getTime(), i1, 0);
-                alarmManager.setRepeating(AlarmManager.RTC, triggerTime, AlarmManager.INTERVAL_DAY, pd);
+                NotificationManager.getInstance().setAlarm(context, time, hr, min);
 
                 // rest
                 NotificationManager.getInstance().edit(t, Time.valueOf(time));

@@ -1,12 +1,23 @@
 package com.example.easyfit.notifications;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+
+import com.example.easyfit.receivers.AlarmsBoradcastReceiver;
+
 import java.sql.Time;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
+import static android.content.Context.ALARM_SERVICE;
 
 public class NotificationManager {
     private LinkedList<Time> notificationTimes;
@@ -74,6 +85,31 @@ public class NotificationManager {
             if(o1.getTime() > o2.getTime())
                 return 1;
             return 0;
+        }
+    }
+
+    public void setAlarm(Context context, String time, int hr, int min){
+        AlarmManager alarmManager = (AlarmManager)(context.getSystemService(ALARM_SERVICE));
+
+        Intent i = new Intent(context, AlarmsBoradcastReceiver.class);
+        i.putExtra("notificationTime", time);
+        i.putExtra("notificationHour", hr);
+        i.putExtra("notificationMinutes", min);
+        i.setAction("com.example.easyfit.NOTIFICATION");
+
+        Calendar c = Calendar.getInstance();
+        //c.add(Calendar.MINUTE, 0);
+        c.set(Calendar.HOUR_OF_DAY, hr);
+        c.set(Calendar.MINUTE, min);
+        long triggerTime = c.getTimeInMillis();
+
+        PendingIntent pd = PendingIntent.getBroadcast(context, (int)Time.valueOf(time).getTime(), i, 0);
+        //alarmManager.setRepeating(AlarmManager.RTC, triggerTime, AlarmManager.INTERVAL_DAY, pd);
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC, triggerTime, pd);
+        } else {
+            alarmManager.setRepeating(AlarmManager.RTC, triggerTime, AlarmManager.INTERVAL_DAY, pd);
         }
     }
 }

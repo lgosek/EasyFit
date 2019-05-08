@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.TimePicker;
 
 import com.example.easyfit.notifications.NotificationManager;
+import com.example.easyfit.receivers.AlarmsBoradcastReceiver;
 
 import java.sql.Time;
 import java.util.Calendar;
@@ -77,20 +79,9 @@ public class NotificationsFragment extends Fragment {
             NotificationManager.getInstance().add(Time.valueOf(time));
             adapter.notifyDataSetChanged();
 
-            AlarmManager alarmManager = (AlarmManager)(getActivity().getSystemService(ALARM_SERVICE));
 
-            Intent i = new Intent();
-            i.setAction("com.example.easyfit.NOTIFICATION");
-
-            Calendar c = Calendar.getInstance();
-            //c.add(Calendar.MINUTE, 0);
-            c.set(Calendar.HOUR_OF_DAY, hr);
-            c.set(Calendar.MINUTE, min);
-            long triggerTime = c.getTimeInMillis();
-
-            PendingIntent pd = PendingIntent.getBroadcast(getContext(), (int)Time.valueOf(time).getTime(), i, 0);
-            alarmManager.setRepeating(AlarmManager.RTC, triggerTime, AlarmManager.INTERVAL_DAY, pd);
-
+            // setting alarm
+            NotificationManager.getInstance().setAlarm(getActivity(), time, hr, min);
         }
     };
 }
