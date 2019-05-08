@@ -83,6 +83,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences.Editor editor = sh.edit();
         editor.putStringSet("notificationTimes", NotificationManager.getInstance().getSet());
         editor.apply();
+
+
+
     }
 
     @Override
@@ -102,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.navHistory:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HistoryFragment()).commit();
+                break;
+            case R.id.nav_logout:
+                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
                 break;
         }
 

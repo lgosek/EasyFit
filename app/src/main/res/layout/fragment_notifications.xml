@@ -40,7 +40,7 @@
         android:id="@+id/plannedNotificationsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="5sp"
+        android:paddingBottom="8sp"
         android:text="@string/plannedNotifications"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"

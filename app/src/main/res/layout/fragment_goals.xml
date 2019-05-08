@@ -6,14 +6,114 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/t3"
+        android:id="@+id/goalsCarbsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/goals"
+        android:layout_marginTop="20dp"
+        android:text="@string/carbs"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/goalsCaloriesText"
+        app:layout_constraintTop_toBottomOf="@+id/goalsCaloriesText" />
+
+    <TextView
+        android:id="@+id/goalsCarbsValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/placeholder"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/goalsCaloriesValue"
+        app:layout_constraintTop_toTopOf="@+id/goalsCarbsText" />
+
+    <TextView
+        android:id="@+id/goalsFatText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/fat"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/goalsProteinsText"
+        app:layout_constraintTop_toBottomOf="@+id/goalsProteinsText" />
+
+    <TextView
+        android:id="@+id/goalsFatValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/placeholder"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/goalsProteinsValue"
+        app:layout_constraintTop_toTopOf="@+id/goalsFatText" />
+
+    <TextView
+        android:id="@+id/goalsProteinsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/proteins"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/goalsCarbsText"
+        app:layout_constraintTop_toBottomOf="@+id/goalsCarbsText" />
+
+    <TextView
+        android:id="@+id/goalsProteinsValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/placeholder"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/goalsCarbsValue"
+        app:layout_constraintTop_toTopOf="@+id/goalsProteinsText" />
+
+    <TextView
+        android:id="@+id/goalsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/goalsDesc"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.027"
+        android:paddingBottom="8sp"/>
+
+    <TextView
+        android:id="@+id/goalsCaloriesText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/calories"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/goalsText"
+        app:layout_constraintTop_toBottomOf="@+id/goalsText" />
+
+    <TextView
+        android:id="@+id/goalsCaloriesValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/placeholder1"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/goalsCaloriesText" />
+
+    <Button
+        android:id="@+id/goalsEditButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/edit"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/goalsFatText"
+        tools:layout_editor_absoluteX="10dp" />
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toBottomOf="@+id/goalsText"
+        tools:layout_editor_absoluteX="8dp" />
 </android.support.constraint.ConstraintLayout>

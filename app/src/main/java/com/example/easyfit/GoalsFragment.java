@@ -1,5 +1,6 @@
 package com.example.easyfit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,11 +8,32 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 public class GoalsFragment extends Fragment {
+
+    View view;
+    Button editButton;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_goals,container,false);
+        view = inflater.inflate(R.layout.fragment_goals,container,false);
+        editButton = view.findViewById(R.id.goalsEditButton);
+        setEditOnClick();
+
+
+        return view;
+    }
+
+    private void setEditOnClick(){
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), GoalsEditActivity.class);
+                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragment()).commit();
+                startActivity(intent);
+            }
+        });
     }
 }
