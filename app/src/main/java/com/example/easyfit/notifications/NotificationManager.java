@@ -99,11 +99,15 @@ public class NotificationManager {
 
         Calendar c = Calendar.getInstance();
         //c.add(Calendar.MINUTE, 0);
-        c.set(Calendar.HOUR_OF_DAY, hr);
-        c.set(Calendar.MINUTE, min);
-        if (Build.VERSION.SDK_INT >= 23 && reset) {
+        boolean addOneDay = false;
+        if((c.get(Calendar.HOUR_OF_DAY) > hr) || ((c.get(Calendar.HOUR_OF_DAY) == hr) && (c.get(Calendar.MINUTE) > min))){
+            addOneDay = true;
+        }
+        if (((Build.VERSION.SDK_INT >= 23) && reset) || addOneDay) {
             c.add(Calendar.DAY_OF_YEAR, 1);
         }
+        c.set(Calendar.HOUR_OF_DAY, hr);
+        c.set(Calendar.MINUTE, min);
         long triggerTime = c.getTimeInMillis();
 
         PendingIntent pd = PendingIntent.getBroadcast(context, (int)Time.valueOf(time).getTime(), i, 0);
