@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.util.Log;
 
 import com.example.easyfit.R;
 
@@ -33,11 +34,12 @@ public class AlarmsBoradcastReceiver extends BroadcastReceiver {
             if(time!=null){
                 int hr = intent.getExtras().getInt("notificationHour", 0);
                 int min = intent.getExtras().getInt("notificationMinutes", 0);
-                com.example.easyfit.notifications.NotificationManager.getInstance().setAlarm(context, time, hr, min);
+                com.example.easyfit.notifications.NotificationManager.getInstance().setAlarm(context, time, hr, min, true);
+                Log.i("NOTIFICATIONS", "Rescheduling alarm: "+time);
             }
         }
 
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         int notificationId = 1;
         String channelId = "com.example.easyfit.NOTIFICATIONCHANNEL";

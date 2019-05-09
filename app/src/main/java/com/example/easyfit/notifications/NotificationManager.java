@@ -88,7 +88,7 @@ public class NotificationManager {
         }
     }
 
-    public void setAlarm(Context context, String time, int hr, int min){
+    public void setAlarm(Context context, String time, int hr, int min, boolean reset){
         AlarmManager alarmManager = (AlarmManager)(context.getSystemService(ALARM_SERVICE));
 
         Intent i = new Intent(context, AlarmsBoradcastReceiver.class);
@@ -101,15 +101,22 @@ public class NotificationManager {
         //c.add(Calendar.MINUTE, 0);
         c.set(Calendar.HOUR_OF_DAY, hr);
         c.set(Calendar.MINUTE, min);
+        if (Build.VERSION.SDK_INT >= 23 && reset) {
+            c.add(Calendar.DAY_OF_YEAR, 1);
+        }
         long triggerTime = c.getTimeInMillis();
 
         PendingIntent pd = PendingIntent.getBroadcast(context, (int)Time.valueOf(time).getTime(), i, 0);
         //alarmManager.setRepeating(AlarmManager.RTC, triggerTime, AlarmManager.INTERVAL_DAY, pd);
 
         if (Build.VERSION.SDK_INT >= 23) {
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC, triggerTime, pd);
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pd);
         } else {
             alarmManager.setRepeating(AlarmManager.RTC, triggerTime, AlarmManager.INTERVAL_DAY, pd);
         }
+    }
+
+    public void setAlarm(Context context, String time, int hr, int min){
+        this.setAlarm(context, time, hr, min, false);
     }
 }
