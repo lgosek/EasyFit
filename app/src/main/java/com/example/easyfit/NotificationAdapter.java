@@ -18,6 +18,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.easyfit.notifications.NotificationManager;
+import com.example.easyfit.receivers.AlarmsBoradcastReceiver;
 
 import java.sql.Time;
 import java.util.Calendar;
@@ -98,7 +99,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
                     AlarmManager alarmManager = (AlarmManager)(context.getSystemService(ALARM_SERVICE));
 
-                    Intent i1 = new Intent();
+                    Intent i1 = new Intent(context, AlarmsBoradcastReceiver.class);
                     i1.setAction("com.example.easyfit.NOTIFICATION");
 
                     PendingIntent pd = PendingIntent.getBroadcast(context, (int)tt, i1, 0);
@@ -125,7 +126,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 // deleting alarm
                 AlarmManager alarmManager = (AlarmManager)(context.getSystemService(ALARM_SERVICE));
 
-                Intent i1 = new Intent();
+                Intent i1 = new Intent(context, AlarmsBoradcastReceiver.class);
                 i1.setAction("com.example.easyfit.NOTIFICATION");
 
                 PendingIntent pd = PendingIntent.getBroadcast(context, (int)tt, i1, 0);
