@@ -8,26 +8,6 @@
     tools:context=".GoalsEditActivity">
 
     <TextView
-        android:id="@+id/goalsCarbsText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/carbs"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@+id/goalsCaloriesText2"
-        app:layout_constraintTop_toBottomOf="@+id/goalsCaloriesText2" />
-
-    <TextView
-        android:id="@+id/goalsFatText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/fat"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@+id/goalsProteinsText2"
-        app:layout_constraintTop_toBottomOf="@+id/goalsProteinsText2" />
-
-    <TextView
         android:id="@+id/goalsCaloriesText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,15 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/goalsProteinsText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/proteins"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@+id/goalsCarbsText2"
-        app:layout_constraintTop_toBottomOf="@+id/goalsCarbsText2" />
 
     <EditText
         android:id="@+id/caloriesEdit"
@@ -60,30 +31,153 @@
         app:layout_constraintBottom_toBottomOf="@+id/goalsCaloriesText2"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <EditText
-        android:id="@+id/carbsEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="@+id/goalsCarbsText2"
-        app:layout_constraintEnd_toEndOf="@+id/caloriesEdit" />
 
-    <EditText
-        android:id="@+id/proteinEdit"
-        android:layout_width="wrap_content"
+    <TableLayout
+        android:id="@+id/table1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="@+id/goalsProteinsText2"
-        app:layout_constraintEnd_toEndOf="@+id/carbsEdit" />
+        android:layout_marginTop="32dp"
+        android:stretchColumns="*"
+        app:layout_constraintTop_toBottomOf="@+id/goalsCaloriesText2"
+        tools:layout_editor_absoluteX="8dp">
 
-    <EditText
-        android:id="@+id/fatEdit"
-        android:layout_width="wrap_content"
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/goalsCarbsText2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="@string/carbs"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/goalsProteinsText2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="@string/proteins"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/goalsFatText2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="@string/fat"
+                android:textSize="16sp" />
+
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/goalsCarbsAmount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="100g"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/goalsProteinsAmount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="100g"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/goalsFatAmount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="100g"
+                android:textSize="14sp" />
+
+
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:id="@+id/tableLayout2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="@+id/goalsFatText2"
-        app:layout_constraintEnd_toEndOf="@+id/proteinEdit" />
+        android:layout_marginTop="16dp"
+        android:stretchColumns="0,2,4"
+        app:layout_constraintTop_toBottomOf="@+id/table1">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <NumberPicker
+                android:id="@+id/carbsPicker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="%"
+                android:textSize="18sp" />
+
+            <NumberPicker
+                android:id="@+id/proteinsPicker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="%"
+                android:textSize="18sp" />
+
+            <NumberPicker
+                android:id="@+id/fatPicker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="%"
+                android:textSize="18sp" />
+
+
+
+
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/goalsEditWarningText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:textColor="#FF0303"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout2"
+        app:layout_constraintVertical_bias="0.957" />
+
 </android.support.constraint.ConstraintLayout>

@@ -30,6 +30,8 @@
     <string name="placeholder">50%</string>
     <string name="edit">Edytuj</string>
 
+    <string name="warningText">"Łączna wartość procentowa makroskładników musi wynosić 100%!"</string>
+
     <string-array name="simpleProducts">
         <item>Ogórek</item>
         <item>Ser</item>
