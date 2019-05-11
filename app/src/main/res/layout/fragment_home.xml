@@ -15,7 +15,8 @@
         android:progress="50"
         app:layout_constraintEnd_toEndOf="@+id/homeEatenText"
         app:layout_constraintStart_toStartOf="@+id/homeEatenText"
-        app:layout_constraintTop_toBottomOf="@+id/homeEatenDesc" />
+        app:layout_constraintTop_toBottomOf="@+id/homeEatenDesc"
+        android:progressTint="#FF0000"/>
 
     <ProgressBar
         android:id="@+id/homeFatProgress"
@@ -102,13 +103,13 @@
         android:progress="50"
         app:layout_constraintEnd_toEndOf="@+id/homeGoalText"
         app:layout_constraintStart_toStartOf="@+id/homeGoalText"
-        app:layout_constraintTop_toBottomOf="@+id/homeGoalDesc" />
+        app:layout_constraintTop_toBottomOf="@+id/homeGoalDesc"
+        android:progressTint="#0033FF"/>
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/carbs"
         app:layout_constraintEnd_toEndOf="@+id/homeCarbsProgress"
         app:layout_constraintStart_toStartOf="@+id/homeCarbsProgress"
@@ -118,7 +119,6 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/proteins"
         app:layout_constraintEnd_toEndOf="@+id/homeProteinsProgress"
         app:layout_constraintStart_toStartOf="@+id/homeProteinsProgress"
@@ -128,7 +128,6 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/fat"
         app:layout_constraintEnd_toEndOf="@+id/homeFatProgress"
         app:layout_constraintStart_toStartOf="@+id/homeFatProgress"
@@ -163,4 +162,13 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/homeAddProductButton" />
+
+    <View
+        android:id="@+id/divider7"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@+id/homeProteinsProgress"
+        app:layout_constraintTop_toBottomOf="@+id/homeEatenDesc"
+        tools:layout_editor_absoluteX="8dp" />
 </android.support.constraint.ConstraintLayout>

@@ -37,7 +37,7 @@ public class EatenMealsAdapter extends RecyclerView.Adapter<EatenMealsAdapter.Ea
     public void onBindViewHolder(@NonNull EatenMealsHolder eatenMealsHolder, int i) {
         eatenMealsHolder.eatenMealName.setText(meals[i]);
         eatenMealsHolder.eatenMealCalories.setText(calories[i]);
-        eatenMealsHolder.eatenMealGrams.setText(grams[i]);
+        eatenMealsHolder.eatenMealGrams.setText(grams[i]+"g");
     }
 
     @Override
