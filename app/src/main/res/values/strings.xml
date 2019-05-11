@@ -32,19 +32,35 @@
 
     <string name="warningText">"Łączna wartość procentowa makroskładników musi wynosić 100%!"</string>
 
+    <string name="goal">Cel</string>
+    <string name="eaten">Spożyte</string>
+    <string name="left">Pozostało</string>
+
+    <string name="addProduct">Dodaj produkt</string>
+    <string name="endDay">Zakończ dzień</string>
+
     <string-array name="simpleProducts">
         <item>Ogórek</item>
         <item>Ser</item>
+        <item>Szynka</item>
     </string-array>
 
     <string-array name="simpleProductsCalories">
         <item>12</item>
         <item>24</item>
+        <item>32</item>
+    </string-array>
+
+    <string-array name="grams">
+        <item>50</item>
+        <item>100</item>
+        <item>200</item>
     </string-array>
 
     <string-array name="meals">
         <item>Schabowy</item>
         <item>Zupa</item>
+        <item>Pizza</item>
     </string-array>
 
 

@@ -1,4 +1,4 @@
-package com.example.easyfit;
+package com.example.easyfit.activities;
 
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +13,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.easyfit.R;
 import com.example.easyfit.notifications.NotificationManager;
 
 public class GoalsEditActivity extends AppCompatActivity {

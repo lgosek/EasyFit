@@ -1,4 +1,4 @@
-package com.example.easyfit;
+package com.example.easyfit.adapters;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -15,13 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
+import com.example.easyfit.R;
 import com.example.easyfit.notifications.NotificationManager;
 import com.example.easyfit.receivers.AlarmsBoradcastReceiver;
 
 import java.sql.Time;
-import java.util.Calendar;
 
 import static android.content.Context.ALARM_SERVICE;
 

@@ -5,15 +5,162 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ProgressBar
+        android:id="@+id/homeProteinsProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="73dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="16dp"
+        android:max="100"
+        android:progress="50"
+        app:layout_constraintEnd_toEndOf="@+id/homeEatenText"
+        app:layout_constraintStart_toStartOf="@+id/homeEatenText"
+        app:layout_constraintTop_toBottomOf="@+id/homeEatenDesc" />
+
+    <ProgressBar
+        android:id="@+id/homeFatProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="73dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="16dp"
+        android:max="100"
+        android:progress="50"
+        app:layout_constraintEnd_toEndOf="@+id/homeLeftText"
+        app:layout_constraintStart_toStartOf="@+id/homeLeftText"
+        app:layout_constraintTop_toBottomOf="@+id/HomeLeftDesc" />
+
     <TextView
-        android:id="@+id/t1"
+        android:id="@+id/homeEatenDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/home"
+        android:layout_marginTop="8dp"
+        android:text="@string/eaten"
+        app:layout_constraintEnd_toEndOf="@+id/homeEatenText"
+        app:layout_constraintStart_toStartOf="@+id/homeEatenText"
+        app:layout_constraintTop_toBottomOf="@+id/homeEatenText" />
+
+    <TextView
+        android:id="@+id/homeGoalText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="3130"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/homeEatenText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3130"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/homeLeftText"
+        app:layout_constraintStart_toEndOf="@+id/homeGoalText"
+        app:layout_constraintTop_toTopOf="@+id/homeGoalText" />
+
+    <TextView
+        android:id="@+id/homeLeftText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3130"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.88"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/homeEatenText" />
+
+    <TextView
+        android:id="@+id/homeGoalDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/goal"
+        app:layout_constraintEnd_toEndOf="@+id/homeGoalText"
+        app:layout_constraintStart_toStartOf="@+id/homeGoalText"
+        app:layout_constraintTop_toBottomOf="@+id/homeGoalText" />
+
+    <TextView
+        android:id="@+id/HomeLeftDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/left"
+        app:layout_constraintEnd_toEndOf="@+id/homeLeftText"
+        app:layout_constraintStart_toStartOf="@+id/homeLeftText"
+        app:layout_constraintTop_toBottomOf="@+id/homeLeftText" />
+
+    <ProgressBar
+        android:id="@+id/homeCarbsProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="73dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="16dp"
+        android:max="100"
+        android:progress="50"
+        app:layout_constraintEnd_toEndOf="@+id/homeGoalText"
+        app:layout_constraintStart_toStartOf="@+id/homeGoalText"
+        app:layout_constraintTop_toBottomOf="@+id/homeGoalDesc" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/carbs"
+        app:layout_constraintEnd_toEndOf="@+id/homeCarbsProgress"
+        app:layout_constraintStart_toStartOf="@+id/homeCarbsProgress"
+        app:layout_constraintTop_toBottomOf="@+id/homeCarbsProgress" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/proteins"
+        app:layout_constraintEnd_toEndOf="@+id/homeProteinsProgress"
+        app:layout_constraintStart_toStartOf="@+id/homeProteinsProgress"
+        app:layout_constraintTop_toBottomOf="@+id/homeProteinsProgress" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/fat"
+        app:layout_constraintEnd_toEndOf="@+id/homeFatProgress"
+        app:layout_constraintStart_toStartOf="@+id/homeFatProgress"
+        app:layout_constraintTop_toBottomOf="@+id/homeFatProgress" />
+
+    <Button
+        android:id="@+id/homeAddProductButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/addProduct"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <Button
+        android:id="@+id/homeEndDayButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/endDay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/homeRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/homeEndDayButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeAddProductButton" />
 </android.support.constraint.ConstraintLayout>

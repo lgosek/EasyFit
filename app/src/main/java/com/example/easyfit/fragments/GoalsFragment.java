@@ -1,4 +1,4 @@
-package com.example.easyfit;
+package com.example.easyfit.fragments;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.easyfit.activities.GoalsEditActivity;
+import com.example.easyfit.R;
 
 import static android.content.Context.MODE_PRIVATE;
 

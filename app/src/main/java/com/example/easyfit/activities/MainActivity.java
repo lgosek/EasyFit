@@ -1,9 +1,8 @@
-package com.example.easyfit;
+package com.example.easyfit.activities;
 
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,10 +12,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.easyfit.R;
+import com.example.easyfit.fragments.GoalsFragment;
+import com.example.easyfit.fragments.HistoryFragment;
+import com.example.easyfit.fragments.HomeFragment;
+import com.example.easyfit.fragments.NotificationsFragment;
+import com.example.easyfit.fragments.ProductsFragment;
 import com.example.easyfit.notifications.NotificationManager;
 
 import java.sql.Time;
-import java.util.HashSet;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {

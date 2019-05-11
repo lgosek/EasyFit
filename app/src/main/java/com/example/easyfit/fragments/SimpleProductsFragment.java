@@ -1,4 +1,4 @@
-package com.example.easyfit;
+package com.example.easyfit.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.easyfit.R;
+import com.example.easyfit.adapters.SimpleProductsAdapter;
 
 public class SimpleProductsFragment extends Fragment {
 
