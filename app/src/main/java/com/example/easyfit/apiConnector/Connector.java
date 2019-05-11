@@ -12,7 +12,7 @@ public class Connector {
     public static synchronized JsonPlaceHolderApi getInstance() {
         if (instance == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://wonderful-stingray-62.localtunnel.me")
+                    .baseUrl("http://192.168.0.73:3000")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 

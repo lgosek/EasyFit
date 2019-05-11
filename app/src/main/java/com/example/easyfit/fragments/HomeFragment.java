@@ -1,6 +1,7 @@
 package com.example.easyfit.fragments;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.easyfit.R;
 import com.example.easyfit.adapters.EatenMealsAdapter;
@@ -26,10 +28,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class HomeFragment extends Fragment {
 
     View view;
-
+    private final String sharedPreferencesFileName = "com.example.easyfit.sharedpreferences";
     RecyclerView eatenMealsRecyclerView;
     EatenMealsAdapter adapter;
 
@@ -39,6 +43,12 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home,container,false);
         final List<EatenMealDetailed> meals = new ArrayList<>();
+        SharedPreferences sh = getActivity().getSharedPreferences(this.sharedPreferencesFileName, MODE_PRIVATE);
+
+        final String calGoal = sh.getString("caloriesGoal", "-");
+//        int carbsPercent = sh.getInt("carbsGoal", -1);
+//        int protPercent = sh.getInt("proteinsGoal", -1);
+//        int fatPercent = sh.getInt("fatGoal", -1);
 
 
 
@@ -68,6 +78,21 @@ public class HomeFragment extends Fragment {
                 }else {
 
                     meals.addAll(response.body());
+                    double eatenCalories = 0;
+                    for(EatenMealDetailed e:response.body()){
+                        eatenCalories += e.getSimpleProduct().getKcal();
+                    }
+
+                    TextView goal = (TextView) view.findViewById(R.id.homeGoalText);
+                    goal.setText(calGoal);
+
+                    TextView eaten = (TextView) view.findViewById(R.id.homeEatenText);
+                    eaten.setText(Integer.toString((int)Math.rint(eatenCalories)));
+
+
+                    TextView left = (TextView) view.findViewById(R.id.homeLeftText);
+                    left.setText(Integer.toString(Integer.parseInt(goal.getText().toString()) - Integer.parseInt(eaten.getText().toString())));
+
                 }
                 adapter.notifyItemInserted(0);
                 Log.i("App", response.toString());
