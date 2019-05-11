@@ -26,6 +26,26 @@ public class HistoryFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        List<EatenProduct> eatenProducts = new ArrayList<>();
+        eatenProducts.add(new EatenProduct(1,200));
+
+        Call<String> call = Connector.getInstance().saveEatenMeals(new EatenProductsWrapper(1,eatenProducts));
+        call.enqueue(new Callback<String>(){
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.i("app", ""+response.code());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.i("app", t.getMessage());
+            }
+        });
+
+
+
+
         return inflater.inflate(R.layout.fragment_history,container,false);
     }
 }
