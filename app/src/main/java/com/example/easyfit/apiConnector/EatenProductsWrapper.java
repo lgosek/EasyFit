@@ -19,4 +19,9 @@ public class EatenProductsWrapper {
     public void setEatenProducts(List<EatenProduct> eatenProducts) {
         this.eatenProducts = eatenProducts;
     }
+
+    public EatenProductsWrapper(int userId, List<EatenProduct> eatenProducts) {
+        this.userId = userId;
+        this.eatenProducts = eatenProducts;
+    }
 }

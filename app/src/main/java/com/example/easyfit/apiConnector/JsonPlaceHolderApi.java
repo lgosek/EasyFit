@@ -28,6 +28,6 @@ public interface JsonPlaceHolderApi {
             @Path("day") int day);
 
     @POST("/eatenMeals")
-    Call<String>postEatenMeals(@Body EatenProductsWrapper wrapper);
+    Call<String>saveEatenMeals(@Body EatenProductsWrapper wrapper);
 
 }

@@ -20,4 +20,9 @@ public class EatenProduct {
     public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
+
+    public EatenProduct(int productId, double quantity) {
+        this.productId = productId;
+        this.quantity = quantity;
+    }
 }
