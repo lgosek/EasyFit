@@ -1,36 +1,153 @@
 package com.example.easyfit.fragments;
 
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.easyfit.R;
 import com.example.easyfit.adapters.EatenMealsAdapter;
+import com.example.easyfit.apiConnector.Connector;
+import com.example.easyfit.apiConnector.EatenMealDetailed;
+import com.example.easyfit.apiConnector.SimpleProduct;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class HomeFragment extends Fragment {
 
     View view;
-
+    private final String sharedPreferencesFileName = "com.example.easyfit.sharedpreferences";
     RecyclerView eatenMealsRecyclerView;
     EatenMealsAdapter adapter;
+
+    ProgressBar carbsProgressBar, proteinsProgressBar, fatProgressBar;
+
+    int FATCALS = 9;
+    int CARBSCALS = 4;
+    int PROTCALS = 4;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home,container,false);
+        final List<EatenMealDetailed> meals = new ArrayList<>();
+        SharedPreferences sh = getActivity().getSharedPreferences(this.sharedPreferencesFileName, MODE_PRIVATE);
+
+        final String calGoal = sh.getString("caloriesGoal", "-");
+        int caloriesGoalInt = Integer.parseInt(calGoal);
+        int carbsPercent = sh.getInt("carbsGoal", -1);
+        int protPercent = sh.getInt("proteinsGoal", -1);
+        int fatPercent = sh.getInt("fatGoal", -1);
+
+        int prot = Math.round((float)(protPercent * caloriesGoalInt) / 100 /PROTCALS);
+        int carbs = Math.round((float)(carbsPercent * caloriesGoalInt) / 100 / CARBSCALS);
+        int fat = Math.round((float)(fatPercent * caloriesGoalInt) / 100 / FATCALS);
+
+        carbsProgressBar = view.findViewById(R.id.homeCarbsProgress);
+        proteinsProgressBar = view.findViewById(R.id.homeProteinsProgress);
+        fatProgressBar = view.findViewById(R.id.homeFatProgress);
+
+        carbsProgressBar.setMax(carbs);
+        Log.i("infoCarbs", Integer.toString(carbs));
+        proteinsProgressBar.setMax(prot);
+        fatProgressBar.setMax(fat);
+
+//        int carbsPercent = sh.getInt("carbsGoal", -1);
+//        int protPercent = sh.getInt("proteinsGoal", -1);
+//        int fatPercent = sh.getInt("fatGoal", -1);
+
+
 
         eatenMealsRecyclerView = view.findViewById(R.id.homeRecyclerView);
 
-        adapter = new EatenMealsAdapter(this.getContext());
+        adapter = new EatenMealsAdapter(this.getContext(), meals);
 
         eatenMealsRecyclerView.setAdapter(adapter);
         eatenMealsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+
+
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH)+1;
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        Log.i("app", Integer.toString(year) + Integer.toString(month) + Integer.toString(day));
+
+        Call<List<EatenMealDetailed>> call = Connector.getInstance().getEatenMealsDetailed(1,year,month,day);
+        call.enqueue(new Callback<List<EatenMealDetailed>>() {
+            @Override
+            public void onResponse(Call<List<EatenMealDetailed>> call, Response<List<EatenMealDetailed>> response) {
+                if(!response.isSuccessful()){
+                    Log.i("App", Integer.toString(response.code()));
+
+                }else {
+
+                    meals.addAll(response.body());
+                    double eatenCalories = 0;
+                    double eatenCarbs, eatenProts, eatenFat;
+                    eatenCarbs = 0;
+                    eatenProts = 0;
+                    eatenFat = 0;
+                    for(EatenMealDetailed e:response.body()){
+                        eatenCalories += e.getSimpleProduct().getKcal();
+                        eatenCarbs += e.getSimpleProduct().getCarbohydrates();
+                        eatenProts += e.getSimpleProduct().getProteins();
+                        eatenFat += e.getSimpleProduct().getFats();
+
+                    }
+
+                    carbsProgressBar.setProgress((int)eatenCarbs);
+                    Log.i("infoCarbs", ""+eatenCarbs);
+                    proteinsProgressBar.setProgress((int)eatenProts);
+                    fatProgressBar.setProgress((int)eatenFat);
+
+
+                    TextView goal = (TextView) view.findViewById(R.id.homeGoalText);
+                    goal.setText(calGoal);
+
+                    TextView eaten = (TextView) view.findViewById(R.id.homeEatenText);
+                    eaten.setText(Integer.toString((int)Math.rint(eatenCalories)));
+
+
+                    TextView left = (TextView) view.findViewById(R.id.homeLeftText);
+                    left.setText(Integer.toString(Integer.parseInt(goal.getText().toString()) - Integer.parseInt(eaten.getText().toString())));
+
+                }
+                adapter.notifyItemInserted(0);
+                Log.i("App", response.toString());
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<EatenMealDetailed>> call, Throwable t) {
+
+                Log.e("App", t.getMessage());
+            }
+        });
+
+
 
         return view;
 
