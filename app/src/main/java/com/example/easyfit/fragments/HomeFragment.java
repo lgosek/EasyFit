@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.easyfit.R;
@@ -37,6 +38,11 @@ public class HomeFragment extends Fragment {
     RecyclerView eatenMealsRecyclerView;
     EatenMealsAdapter adapter;
 
+    ProgressBar carbsProgressBar, proteinsProgressBar, fatProgressBar;
+
+    int FATCALS = 9;
+    int CARBSCALS = 4;
+    int PROTCALS = 4;
 
     @Nullable
     @Override
@@ -46,6 +52,24 @@ public class HomeFragment extends Fragment {
         SharedPreferences sh = getActivity().getSharedPreferences(this.sharedPreferencesFileName, MODE_PRIVATE);
 
         final String calGoal = sh.getString("caloriesGoal", "-");
+        int caloriesGoalInt = Integer.parseInt(calGoal);
+        int carbsPercent = sh.getInt("carbsGoal", -1);
+        int protPercent = sh.getInt("proteinsGoal", -1);
+        int fatPercent = sh.getInt("fatGoal", -1);
+
+        int prot = Math.round((float)(protPercent * caloriesGoalInt) / 100 /PROTCALS);
+        int carbs = Math.round((float)(carbsPercent * caloriesGoalInt) / 100 / CARBSCALS);
+        int fat = Math.round((float)(fatPercent * caloriesGoalInt) / 100 / FATCALS);
+
+        carbsProgressBar = view.findViewById(R.id.homeCarbsProgress);
+        proteinsProgressBar = view.findViewById(R.id.homeProteinsProgress);
+        fatProgressBar = view.findViewById(R.id.homeFatProgress);
+
+        carbsProgressBar.setMax(carbs);
+        Log.i("infoCarbs", Integer.toString(carbs));
+        proteinsProgressBar.setMax(prot);
+        fatProgressBar.setMax(fat);
+
 //        int carbsPercent = sh.getInt("carbsGoal", -1);
 //        int protPercent = sh.getInt("proteinsGoal", -1);
 //        int fatPercent = sh.getInt("fatGoal", -1);
@@ -79,9 +103,23 @@ public class HomeFragment extends Fragment {
 
                     meals.addAll(response.body());
                     double eatenCalories = 0;
+                    double eatenCarbs, eatenProts, eatenFat;
+                    eatenCarbs = 0;
+                    eatenProts = 0;
+                    eatenFat = 0;
                     for(EatenMealDetailed e:response.body()){
                         eatenCalories += e.getSimpleProduct().getKcal();
+                        eatenCarbs += e.getSimpleProduct().getCarbohydrates();
+                        eatenProts += e.getSimpleProduct().getProteins();
+                        eatenFat += e.getSimpleProduct().getFats();
+
                     }
+
+                    carbsProgressBar.setProgress((int)eatenCarbs);
+                    Log.i("infoCarbs", ""+eatenCarbs);
+                    proteinsProgressBar.setProgress((int)eatenProts);
+                    fatProgressBar.setProgress((int)eatenFat);
+
 
                     TextView goal = (TextView) view.findViewById(R.id.homeGoalText);
                     goal.setText(calGoal);
