@@ -9,16 +9,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.easyfit.R;
+import com.example.easyfit.apiConnector.SimpleProduct;
+
+import java.util.List;
 
 public class SimpleProductsAdapter extends RecyclerView.Adapter<SimpleProductsAdapter.SimpleProductsHolder> {
 
     Context context;
-    String[] products, calories;
+    List<SimpleProduct> products;
 
-    public SimpleProductsAdapter(Context ct, String[] products, String[] calories){
+    public SimpleProductsAdapter(Context ct, List<SimpleProduct> simpleProducts){
         this.context = ct;
-        this.products = products;
-        this.calories = calories;
+        this.products = simpleProducts;
     }
 
     @NonNull
@@ -31,13 +33,13 @@ public class SimpleProductsAdapter extends RecyclerView.Adapter<SimpleProductsAd
 
     @Override
     public void onBindViewHolder(@NonNull SimpleProductsHolder simpleProductsHolder, int i) {
-        simpleProductsHolder.name.setText(products[i]);
-        simpleProductsHolder.calories.setText(calories[i]);
+        simpleProductsHolder.name.setText(products.get(i).getName());
+        simpleProductsHolder.calories.setText(Double.toString(products.get(i).getKcal()));
     }
 
     @Override
     public int getItemCount() {
-        return products.length;
+        return products.size();
     }
 
     public class SimpleProductsHolder extends RecyclerView.ViewHolder {
