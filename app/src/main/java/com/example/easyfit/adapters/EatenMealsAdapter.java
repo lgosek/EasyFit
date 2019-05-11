@@ -9,20 +9,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.easyfit.R;
+import com.example.easyfit.apiConnector.EatenMealDetailed;
+
+import java.util.List;
 
 public class EatenMealsAdapter extends RecyclerView.Adapter<EatenMealsAdapter.EatenMealsHolder> {
 
     private Context context;
 
-    //TODO remove dummy data
-    String[] meals, grams, calories;
+    private List<EatenMealDetailed> meals;
 
-    public EatenMealsAdapter(Context ct){
+    public EatenMealsAdapter(Context ct, List<EatenMealDetailed> meals){
         this.context = ct;
+        this.meals = meals;
 
-        meals = context.getResources().getStringArray(R.array.simpleProducts);
-        calories = context.getResources().getStringArray(R.array.simpleProductsCalories);
-        grams = context.getResources().getStringArray(R.array.grams);
     }
 
     @NonNull
@@ -35,14 +35,14 @@ public class EatenMealsAdapter extends RecyclerView.Adapter<EatenMealsAdapter.Ea
 
     @Override
     public void onBindViewHolder(@NonNull EatenMealsHolder eatenMealsHolder, int i) {
-        eatenMealsHolder.eatenMealName.setText(meals[i]);
-        eatenMealsHolder.eatenMealCalories.setText(calories[i]);
-        eatenMealsHolder.eatenMealGrams.setText(grams[i]+"g");
+        eatenMealsHolder.eatenMealName.setText(meals.get(i).getSimpleProduct().getName());
+        eatenMealsHolder.eatenMealCalories.setText(Integer.toString((int) Math.rint(meals.get(i).getSimpleProduct().getKcal()))+" kcal");
+        eatenMealsHolder.eatenMealGrams.setText(Integer.toString((int) Math.rint(meals.get(i).getQuantity()))+" g");
     }
 
     @Override
     public int getItemCount() {
-        return meals.length;
+        return meals.size();
     }
 
     public class EatenMealsHolder extends RecyclerView.ViewHolder {
