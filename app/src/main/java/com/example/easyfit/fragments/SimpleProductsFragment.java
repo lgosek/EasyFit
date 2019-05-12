@@ -17,6 +17,7 @@ import com.example.easyfit.activities.AddEatenProductActivity;
 import com.example.easyfit.adapters.SimpleProductsAdapter;
 import com.example.easyfit.apiConnector.Connector;
 import com.example.easyfit.apiConnector.SimpleProduct;
+import com.example.easyfit.dataManager.DataManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,45 +49,46 @@ public class SimpleProductsFragment extends Fragment {
 
 //        products = view.getResources().getStringArray(R.array.simpleProducts);
 //        calories = view.getResources().getStringArray(R.array.simpleProductsCalories);
-        final List<SimpleProduct> spList = new ArrayList<>();
+        final List<SimpleProduct> spList = DataManager.getInstance().getSimpleProducts();
 
         adapter = new SimpleProductsAdapter(this.getContext(), spList, getActivity());
 
+
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        DataManager.getInstance().synchronizeSimpleProducts(adapter);
 
 
 
 
-
-        Call<List<SimpleProduct>> call = Connector.getInstance().getSimpleProducts();
-        call.enqueue(new Callback<List<SimpleProduct>>() {
-            @Override
-            public void onResponse(Call<List<SimpleProduct>> call, Response<List<SimpleProduct>> response) {
-                List<SimpleProduct> spList1 = new ArrayList<>();
-                if(!response.isSuccessful()){
-                    Log.i("App", Integer.toString(response.code()));
-
-                }else {
-
-                    spList.addAll(response.body());
-                }
-                adapter.notifyItemInserted(0);
-                Log.i("App", response.toString());
-
-
-
-
-            }
-
-            @Override
-            public void onFailure(Call<List<SimpleProduct>> call, Throwable t) {
-                List<SimpleProduct> spList1 = new ArrayList<>();
-                spList.add(0, new SimpleProduct(12, t.getMessage(), 21.3, 42.8, 42.3, 16.7));
-                adapter.notifyItemInserted(0);
-                Log.i("App", t.getMessage());
-            }
-        });
+//        Call<List<SimpleProduct>> call = Connector.getInstance().getSimpleProducts();
+//        call.enqueue(new Callback<List<SimpleProduct>>() {
+//            @Override
+//            public void onResponse(Call<List<SimpleProduct>> call, Response<List<SimpleProduct>> response) {
+//                List<SimpleProduct> spList1 = new ArrayList<>();
+//                if(!response.isSuccessful()){
+//                    Log.i("App", Integer.toString(response.code()));
+//
+//                }else {
+//
+//                    spList.addAll(response.body());
+//                }
+//                adapter.notifyItemInserted(0);
+//                Log.i("App", response.toString());
+//
+//
+//
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<SimpleProduct>> call, Throwable t) {
+//                List<SimpleProduct> spList1 = new ArrayList<>();
+//                spList.add(0, new SimpleProduct(12, t.getMessage(), 21.3, 42.8, 42.3, 16.7));
+//                adapter.notifyItemInserted(0);
+//                Log.i("App", t.getMessage());
+//            }
+//        });
 
         return view;
     }
