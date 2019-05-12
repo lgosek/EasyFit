@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.easyfit">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,11 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.GoalsEditActivity"/>
-            <!--android:parentActivityName=".MainActivity"/>-->
-            <!--android:theme="@style/AppTheme.NoActionBar"-->
-
-
+        <activity android:name=".activities.AddEatenProductActivity"></activity>
+        <activity android:name=".activities.GoalsEditActivity" /> <!-- android:parentActivityName=".MainActivity"/> -->
+        <!-- android:theme="@style/AppTheme.NoActionBar" -->
         <receiver
             android:name=".receivers.SystemRebootBroadcastReceiver"
             android:enabled="true"

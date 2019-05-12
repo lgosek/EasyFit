@@ -2,6 +2,7 @@ package com.example.easyfit.fragments;
 
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -50,6 +51,37 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home,container,false);
+        goal = view.findViewById(R.id.homeGoalText);
+        eaten = view.findViewById(R.id.homeEatenText);
+        left = view.findViewById(R.id.homeLeftText);
+
+
+        carbsProgressBar = view.findViewById(R.id.homeCarbsProgress);
+        proteinsProgressBar = view.findViewById(R.id.homeProteinsProgress);
+        fatProgressBar = view.findViewById(R.id.homeFatProgress);
+
+
+//        int carbsPercent = sh.getInt("carbsGoal", -1);
+//        int protPercent = sh.getInt("proteinsGoal", -1);
+//        int fatPercent = sh.getInt("fatGoal", -1);
+
+
+
+        eatenMealsRecyclerView = view.findViewById(R.id.homeRecyclerView);
+
+        adapter = new EatenMealsAdapter(this.getContext());
+
+        eatenMealsRecyclerView.setAdapter(adapter);
+        eatenMealsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+        return view;
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         final List<EatenMealDetailed> meals = new ArrayList<>();
         SharedPreferences sh = getActivity().getSharedPreferences(this.sharedPreferencesFileName, MODE_PRIVATE);
 
@@ -63,33 +95,10 @@ public class HomeFragment extends Fragment {
         int carbs = Math.round((float)(carbsPercent * caloriesGoalInt) / 100 / CARBSCALS);
         int fat = Math.round((float)(fatPercent * caloriesGoalInt) / 100 / FATCALS);
 
-        goal = view.findViewById(R.id.homeGoalText);
-        eaten = view.findViewById(R.id.homeEatenText);
-        left = view.findViewById(R.id.homeLeftText);
-
-
-        carbsProgressBar = view.findViewById(R.id.homeCarbsProgress);
-        proteinsProgressBar = view.findViewById(R.id.homeProteinsProgress);
-        fatProgressBar = view.findViewById(R.id.homeFatProgress);
-
         carbsProgressBar.setMax(carbs);
         Log.i("infoCarbs", Integer.toString(carbs));
         proteinsProgressBar.setMax(prot);
         fatProgressBar.setMax(fat);
-
-//        int carbsPercent = sh.getInt("carbsGoal", -1);
-//        int protPercent = sh.getInt("proteinsGoal", -1);
-//        int fatPercent = sh.getInt("fatGoal", -1);
-
-
-
-        eatenMealsRecyclerView = view.findViewById(R.id.homeRecyclerView);
-
-        adapter = new EatenMealsAdapter(this.getContext(), meals);
-
-        eatenMealsRecyclerView.setAdapter(adapter);
-        eatenMealsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
 
 
         Calendar c = Calendar.getInstance();
@@ -106,9 +115,16 @@ public class HomeFragment extends Fragment {
                 if(!response.isSuccessful()){
                     Log.i("App", Integer.toString(response.code()));
 
-                    carbsProgressBar.setProgress(0);
-                    proteinsProgressBar.setProgress(0);
-                    fatProgressBar.setProgress(0);
+                    if(Build.VERSION.SDK_INT >= 24) {
+                        carbsProgressBar.setProgress(0, true);
+                        proteinsProgressBar.setProgress(0,true);
+                        fatProgressBar.setProgress(0,true);
+                    }
+                    else{
+                        carbsProgressBar.setProgress(0);
+                        proteinsProgressBar.setProgress(0);
+                        fatProgressBar.setProgress(0);
+                    }
 
                     goal.setText(calGoal);
 
@@ -120,6 +136,7 @@ public class HomeFragment extends Fragment {
                 }else {
 
                     meals.addAll(response.body());
+                    adapter.setMeals(meals);
                     double eatenCalories = 0;
                     double eatenCarbs, eatenProts, eatenFat;
                     eatenCarbs = 0;
@@ -133,11 +150,16 @@ public class HomeFragment extends Fragment {
 
                     }
 
-                    carbsProgressBar.setProgress((int)eatenCarbs);
-                    Log.i("infoCarbs", ""+eatenCarbs);
-                    proteinsProgressBar.setProgress((int)eatenProts);
-                    fatProgressBar.setProgress((int)eatenFat);
-
+                    if(Build.VERSION.SDK_INT >= 24) {
+                        carbsProgressBar.setProgress((int) eatenCarbs,true);
+                        proteinsProgressBar.setProgress((int) eatenProts, true);
+                        fatProgressBar.setProgress((int) eatenFat, true);
+                    }
+                    else{
+                        carbsProgressBar.setProgress((int) eatenCarbs);
+                        proteinsProgressBar.setProgress((int) eatenProts);
+                        fatProgressBar.setProgress((int) eatenFat);
+                    }
 
 
                     goal.setText(calGoal);
@@ -161,10 +183,5 @@ public class HomeFragment extends Fragment {
                 Log.e("App", t.getMessage());
             }
         });
-
-
-
-        return view;
-
     }
 }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.easyfit.R;
 import com.example.easyfit.apiConnector.EatenMealDetailed;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EatenMealsAdapter extends RecyclerView.Adapter<EatenMealsAdapter.EatenMealsHolder> {
@@ -19,10 +20,15 @@ public class EatenMealsAdapter extends RecyclerView.Adapter<EatenMealsAdapter.Ea
 
     private List<EatenMealDetailed> meals;
 
-    public EatenMealsAdapter(Context ct, List<EatenMealDetailed> meals){
+    public EatenMealsAdapter(Context ct){
         this.context = ct;
-        this.meals = meals;
+        this.meals = new ArrayList<>();
+        //this.meals = meals;
 
+    }
+
+    public void setMeals(List<EatenMealDetailed> meals) {
+        this.meals = meals;
     }
 
     @NonNull
