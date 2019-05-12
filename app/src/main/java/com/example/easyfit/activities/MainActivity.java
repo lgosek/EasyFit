@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.easyfit.R;
+import com.example.easyfit.dataManager.DataManager;
 import com.example.easyfit.fragments.GoalsFragment;
 import com.example.easyfit.fragments.HistoryFragment;
 import com.example.easyfit.fragments.HomeFragment;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        DataManager.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

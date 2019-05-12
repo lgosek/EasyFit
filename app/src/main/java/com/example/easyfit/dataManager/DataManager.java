@@ -1,10 +1,13 @@
 package com.example.easyfit.dataManager;
 
+import android.os.Build;
 import android.text.format.Time;
 import android.util.Log;
 
+import com.example.easyfit.adapters.EatenMealsAdapter;
 import com.example.easyfit.adapters.SimpleProductsAdapter;
 import com.example.easyfit.apiConnector.Connector;
+import com.example.easyfit.apiConnector.EatenMealDetailed;
 import com.example.easyfit.apiConnector.SimpleProduct;
 
 import java.util.ArrayList;
@@ -18,10 +21,24 @@ public class DataManager {
     private static DataManager instance;
     private static List<SimpleProduct> simpleProducts;
     private Time time;
+    private SimpleProductsAdapter simpleProductsAdapter;
+    private boolean firstDownloadedFlag;
+
 
     private DataManager() {
         simpleProducts = new ArrayList<>();
-        time = new Time();   time.setToNow();
+        getDataFromAPI(simpleProducts);
+        firstDownloadedFlag = false;
+        time = new Time();
+        time.setToNow();
+    }
+
+    public void setAdapter(SimpleProductsAdapter adapter) {
+        this.simpleProductsAdapter = adapter;
+    }
+
+    public List<SimpleProduct> getSimpleProducts(){
+        return simpleProducts;
     }
 
     public static synchronized DataManager getInstance(){
@@ -30,7 +47,8 @@ public class DataManager {
         }
         return instance;
     }
-    void synchronize(final List<SimpleProduct> spList, final SimpleProductsAdapter adapter){
+
+    void getDataFromAPI(final List<SimpleProduct> spList){
         Call<List<SimpleProduct>> call = Connector.getInstance().getSimpleProducts();
         call.enqueue(new Callback<List<SimpleProduct>>() {
             @Override
@@ -42,12 +60,12 @@ public class DataManager {
                     spList.clear();
                     spList.addAll(response.body());
                 }
-                adapter.notifyDataSetChanged();
+//
+                if(!(simpleProductsAdapter ==null)){
+                    simpleProductsAdapter.notifyDataSetChanged();
+                }
                 Log.i("App", response.toString());
-
-
-
-
+                firstDownloadedFlag = true;
             }
 
             @Override
@@ -58,18 +76,22 @@ public class DataManager {
 
     }
 
-    public List<SimpleProduct> getSimpleProducts(){
-        return simpleProducts;
-    }
 
-    public void synchronizeSimpleProducts(SimpleProductsAdapter adapter){
+
+
+
+    public void synchronizeSimpleProducts(boolean forceSynchronisation){
         Time currentTime = new Time(); currentTime.setToNow();
         Log.i("App","synchronize request"+ Long.toString(time.toMillis(false) + 10*1000) + " " +  Long.toString(currentTime.toMillis(false)));
 
-        if(getSimpleProducts().isEmpty() || (time.toMillis(false) + 10*1000) < currentTime.toMillis(false)){
+        if(forceSynchronisation || (!firstDownloadedFlag) || (time.toMillis(false) + 60*1000) < currentTime.toMillis(false)){
             Log.i("App","update products");
-            time = currentTime;
-            synchronize(getSimpleProducts(),adapter);
+            time.setToNow();
+            getDataFromAPI(getSimpleProducts());
         }
     }
+
+
+
+
 }

@@ -97,7 +97,7 @@ public class HomeFragment extends Fragment {
         final List<EatenMealDetailed> meals = new ArrayList<>();
         SharedPreferences sh = getActivity().getSharedPreferences(this.sharedPreferencesFileName, MODE_PRIVATE);
 
-        final String calGoal = sh.getString("caloriesGoal", "-");
+        final String calGoal = sh.getString("caloriesGoal", "-1");
         int caloriesGoalInt = Integer.parseInt(calGoal);
         int carbsPercent = sh.getInt("carbsGoal", -1);
         int protPercent = sh.getInt("proteinsGoal", -1);

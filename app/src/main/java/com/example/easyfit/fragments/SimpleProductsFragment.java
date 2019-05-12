@@ -56,7 +56,8 @@ public class SimpleProductsFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        DataManager.getInstance().synchronizeSimpleProducts(adapter);
+        DataManager.getInstance().setAdapter(adapter);
+        DataManager.getInstance().synchronizeSimpleProducts(false);
 
 
 
