@@ -73,6 +73,7 @@ public class SimpleProductsAdapter extends RecyclerView.Adapter<SimpleProductsAd
     private void addingProductAction(int position) {
         QuantityDialog dialog = new QuantityDialog();
         dialog.setProduct(products.get(position));
+        dialog.setCurrentActivity(currentActivity);
         dialog.show(((AppCompatActivity)context).getSupportFragmentManager(), "QUANTITY_DIALOG");
     }
 

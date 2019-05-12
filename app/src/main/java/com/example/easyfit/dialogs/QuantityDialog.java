@@ -1,5 +1,6 @@
 package com.example.easyfit.dialogs;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -30,7 +31,8 @@ public class QuantityDialog extends DialogFragment {
 
     EditText quantity;
 
-    SimpleProduct product;
+    private SimpleProduct product;
+    private Activity currentActivity;
 
     public void setProduct(SimpleProduct product){
         this.product = product;
@@ -64,13 +66,13 @@ public class QuantityDialog extends DialogFragment {
                         @Override
                         public void onResponse(Call<String> call, Response<String> response) {
                             Log.i("app", ""+response.code());
-                            getActivity().finish();
+                            currentActivity.finish();
                         }
 
                         @Override
                         public void onFailure(Call<String> call, Throwable t) {
                             Log.i("app", t.getMessage());
-                            getActivity().finish();
+                            currentActivity.finish();
                         }
                     });
 
@@ -90,5 +92,9 @@ public class QuantityDialog extends DialogFragment {
         });
 
         return builder.create();
+    }
+
+    public void setCurrentActivity(Activity currentActivity) {
+        this.currentActivity = currentActivity;
     }
 }
