@@ -40,6 +40,8 @@ public class HomeFragment extends Fragment {
 
     ProgressBar carbsProgressBar, proteinsProgressBar, fatProgressBar;
 
+    TextView goal, eaten, left;
+
     int FATCALS = 9;
     int CARBSCALS = 4;
     int PROTCALS = 4;
@@ -60,6 +62,11 @@ public class HomeFragment extends Fragment {
         int prot = Math.round((float)(protPercent * caloriesGoalInt) / 100 /PROTCALS);
         int carbs = Math.round((float)(carbsPercent * caloriesGoalInt) / 100 / CARBSCALS);
         int fat = Math.round((float)(fatPercent * caloriesGoalInt) / 100 / FATCALS);
+
+        goal = view.findViewById(R.id.homeGoalText);
+        eaten = view.findViewById(R.id.homeEatenText);
+        left = view.findViewById(R.id.homeLeftText);
+
 
         carbsProgressBar = view.findViewById(R.id.homeCarbsProgress);
         proteinsProgressBar = view.findViewById(R.id.homeProteinsProgress);
@@ -99,6 +106,17 @@ public class HomeFragment extends Fragment {
                 if(!response.isSuccessful()){
                     Log.i("App", Integer.toString(response.code()));
 
+                    carbsProgressBar.setProgress(0);
+                    proteinsProgressBar.setProgress(0);
+                    fatProgressBar.setProgress(0);
+
+                    goal.setText(calGoal);
+
+                    eaten.setText(Integer.toString(0));
+
+                    left.setText(calGoal);
+
+
                 }else {
 
                     meals.addAll(response.body());
@@ -121,14 +139,11 @@ public class HomeFragment extends Fragment {
                     fatProgressBar.setProgress((int)eatenFat);
 
 
-                    TextView goal = (TextView) view.findViewById(R.id.homeGoalText);
+
                     goal.setText(calGoal);
 
-                    TextView eaten = (TextView) view.findViewById(R.id.homeEatenText);
                     eaten.setText(Integer.toString((int)Math.rint(eatenCalories)));
 
-
-                    TextView left = (TextView) view.findViewById(R.id.homeLeftText);
                     left.setText(Integer.toString(Integer.parseInt(goal.getText().toString()) - Integer.parseInt(eaten.getText().toString())));
 
                 }
