@@ -39,6 +39,10 @@
     <string name="addProduct">Dodaj produkt</string>
     <string name="endDay">Zakończ dzień</string>
 
+    <string name="ok">OK</string>
+    <string name="cancel">Anuluj</string>
+    <string name="quantityDialogName">Podaj ilość</string>
+
     <string-array name="simpleProducts">
         <item>Ogórek</item>
         <item>Ser</item>

@@ -1,6 +1,7 @@
 package com.example.easyfit.fragments;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,10 +14,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.easyfit.R;
+import com.example.easyfit.activities.AddEatenProductActivity;
+import com.example.easyfit.activities.GoalsEditActivity;
 import com.example.easyfit.adapters.EatenMealsAdapter;
 import com.example.easyfit.apiConnector.Connector;
 import com.example.easyfit.apiConnector.EatenMealDetailed;
@@ -43,6 +47,8 @@ public class HomeFragment extends Fragment {
 
     TextView goal, eaten, left;
 
+    Button addEatenMealButton;
+
     int FATCALS = 9;
     int CARBSCALS = 4;
     int PROTCALS = 4;
@@ -60,12 +66,8 @@ public class HomeFragment extends Fragment {
         proteinsProgressBar = view.findViewById(R.id.homeProteinsProgress);
         fatProgressBar = view.findViewById(R.id.homeFatProgress);
 
-
-//        int carbsPercent = sh.getInt("carbsGoal", -1);
-//        int protPercent = sh.getInt("proteinsGoal", -1);
-//        int fatPercent = sh.getInt("fatGoal", -1);
-
-
+        addEatenMealButton = view.findViewById(R.id.homeAddProductButton);
+        setAddMealOnClick();
 
         eatenMealsRecyclerView = view.findViewById(R.id.homeRecyclerView);
 
@@ -76,6 +78,16 @@ public class HomeFragment extends Fragment {
 
         return view;
 
+    }
+
+    private void setAddMealOnClick() {
+        this.addEatenMealButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AddEatenProductActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -137,6 +149,7 @@ public class HomeFragment extends Fragment {
 
                     meals.addAll(response.body());
                     adapter.setMeals(meals);
+                    adapter.notifyDataSetChanged();
                     double eatenCalories = 0;
                     double eatenCarbs, eatenProts, eatenFat;
                     eatenCarbs = 0;

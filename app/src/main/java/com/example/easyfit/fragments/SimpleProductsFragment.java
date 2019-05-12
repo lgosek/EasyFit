@@ -1,5 +1,6 @@
 package com.example.easyfit.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.easyfit.R;
+import com.example.easyfit.activities.AddEatenProductActivity;
 import com.example.easyfit.adapters.SimpleProductsAdapter;
 import com.example.easyfit.apiConnector.Connector;
 import com.example.easyfit.apiConnector.SimpleProduct;
@@ -39,13 +41,16 @@ public class SimpleProductsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_simple_products,container,false);
 
+        if(getActivity().getClass() == AddEatenProductActivity.class)
+            Log.i("ACTIVITY", "true");
+
         recyclerView = view.findViewById(R.id.simpleProductsRecyclerView);
 
 //        products = view.getResources().getStringArray(R.array.simpleProducts);
 //        calories = view.getResources().getStringArray(R.array.simpleProductsCalories);
         final List<SimpleProduct> spList = new ArrayList<>();
 
-        adapter = new SimpleProductsAdapter(this.getContext(), spList);
+        adapter = new SimpleProductsAdapter(this.getContext(), spList, getActivity());
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
