@@ -182,7 +182,7 @@ public class HomeFragment extends Fragment {
                     left.setText(Integer.toString(Integer.parseInt(goal.getText().toString()) - Integer.parseInt(eaten.getText().toString())));
 
                 }
-                adapter.notifyItemInserted(0);
+                adapter.notifyDataSetChanged();
                 Log.i("App", response.toString());
 
 
