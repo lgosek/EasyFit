@@ -13,7 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.AddEatenProductActivity"></activity>
+        <activity android:name=".activities.LoginActivity"
+            android:parentActivityName=".activities.LauncherActivity"/>
+        <activity
+            android:name=".activities.LauncherActivity"
+            android:theme="@style/AppTheme.NoActionBarNotTransparentStatusBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.AddEatenProductActivity" />
         <activity android:name=".activities.GoalsEditActivity" /> <!-- android:parentActivityName=".MainActivity"/> -->
         <!-- android:theme="@style/AppTheme.NoActionBar" -->
         <receiver
@@ -36,11 +47,13 @@
         <activity
             android:name=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
     </application>
 

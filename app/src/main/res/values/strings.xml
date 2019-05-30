@@ -43,6 +43,12 @@
     <string name="cancel">Anuluj</string>
     <string name="quantityDialogName">Podaj ilość</string>
 
+    <string name="login">Zaloguj się</string>
+    <string name="createAccount">Zarejestruj się</string>
+
+    <string name="email">e-mail</string>
+    <string name="password">hasło</string>
+
     <string-array name="simpleProducts">
         <item>Ogórek</item>
         <item>Ser</item>

@@ -1,5 +1,6 @@
 package com.example.easyfit.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -9,7 +10,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.easyfit.R;
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout drawer;
     NavigationView navigationView;
+    private TextView usernameText;
 
     private final String sharedPreferencesFileName = "com.example.easyfit.sharedpreferences";
 //    private NotificationManager notificationManager;
@@ -50,12 +54,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.navView);
         navigationView.setNavigationItemSelectedListener(this);
 
+        usernameText = navigationView.getHeaderView(0).findViewById(R.id.navigationDrawerUsername);
+
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open,R.string.navigation_drawer_close);
 
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
 
         //!!!!!!!!!!!!!11
         if(savedInstanceState == null) {
@@ -68,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
 
+
         SharedPreferences sh = getSharedPreferences(this.sharedPreferencesFileName, MODE_PRIVATE);
         Set<String> set = sh.getStringSet("notificationTimes", null);
 
@@ -76,10 +83,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 NotificationManager.getInstance().add(Time.valueOf(s));
             }
         }
+        String username = "";
+        username = sh.getString("loggedInUsername", "username");
+        usernameText.setText(username);
 
-        if(sh.getBoolean("edited", false)){
-            Toast.makeText(this, "changed", Toast.LENGTH_SHORT).show();
-        }
+//        if(sh.getBoolean("edited", false)){
+//            Toast.makeText(this, "changed", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     @Override
@@ -113,13 +123,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HistoryFragment()).commit();
                 break;
             case R.id.nav_logout:
-                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+                logout();
                 break;
         }
 
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    private void logout() {
+        SharedPreferences sh = getSharedPreferences(this.sharedPreferencesFileName, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sh.edit();
+        editor.putBoolean("loggedIn", false);
+        editor.apply();
+
+        Intent intent = new Intent(this, LauncherActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override

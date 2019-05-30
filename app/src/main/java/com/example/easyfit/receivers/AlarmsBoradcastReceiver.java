@@ -54,7 +54,7 @@ public class AlarmsBoradcastReceiver extends BroadcastReceiver {
         }
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle("Przypomnienie o posiłku!");
 
 //        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
