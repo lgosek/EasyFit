@@ -14,8 +14,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".activities.AddSimpleProductActivity"/>
+        <activity
             android:name=".activities.CreateAccountActivity"
-            android:parentActivityName=".activities.LauncherActivity"/>
+            android:parentActivityName=".activities.LauncherActivity" />
         <activity
             android:name=".activities.LoginActivity"
             android:parentActivityName=".activities.LauncherActivity" />

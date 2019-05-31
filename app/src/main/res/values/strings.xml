@@ -59,6 +59,11 @@
 
     <string name="setGoal">Określ swój cel kalorii i makroskładników</string>
 
+    <string name="addSimpleProduct">Dodaj nowy produkt</string>
+    <string name="name">Nazwa</string>
+    <string name="kcalin100g">/100g</string>
+    <string name="in100g">g/100g</string>
+
     <string-array name="simpleProducts">
         <item>Ogórek</item>
         <item>Ser</item>

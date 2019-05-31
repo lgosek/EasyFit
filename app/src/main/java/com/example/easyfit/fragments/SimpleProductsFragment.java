@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,8 @@ import android.view.ViewGroup;
 
 import com.example.easyfit.R;
 import com.example.easyfit.activities.AddEatenProductActivity;
+import com.example.easyfit.activities.AddSimpleProductActivity;
+import com.example.easyfit.activities.MainActivity;
 import com.example.easyfit.adapters.SimpleProductsAdapter;
 import com.example.easyfit.apiConnector.Connector;
 import com.example.easyfit.apiConnector.SimpleProduct;
@@ -31,9 +34,7 @@ public class SimpleProductsFragment extends Fragment {
 
     RecyclerView recyclerView;
 
-    // TODO remove dummy data
-//    String[] products, calories;
-
+    FloatingActionButton addSimpleProductButton;
 
     SimpleProductsAdapter adapter;
 
@@ -46,6 +47,13 @@ public class SimpleProductsFragment extends Fragment {
             Log.i("ACTIVITY", "true");
 
         recyclerView = view.findViewById(R.id.simpleProductsRecyclerView);
+        addSimpleProductButton = view.findViewById(R.id.simpleProductsAddButton);
+        if(getActivity().getClass()== MainActivity.class) {
+            addButtonOnClickHandler();
+        }
+        else{
+            addSimpleProductButton.hide();
+        }
 
 //        products = view.getResources().getStringArray(R.array.simpleProducts);
 //        calories = view.getResources().getStringArray(R.array.simpleProductsCalories);
@@ -92,5 +100,15 @@ public class SimpleProductsFragment extends Fragment {
 //        });
 
         return view;
+    }
+
+    private void addButtonOnClickHandler() {
+        this.addSimpleProductButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddSimpleProductActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
