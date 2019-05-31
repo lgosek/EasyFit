@@ -30,4 +30,7 @@ public interface JsonPlaceHolderApi {
     @POST("/eatenMeals")
     Call<String>saveEatenMeals(@Body EatenProductsWrapper wrapper);
 
+    @POST("/simpleProducts")
+    Call<String>saveSimpleProduct(@Body SimpleProductWrapper wrapper);
+
 }
