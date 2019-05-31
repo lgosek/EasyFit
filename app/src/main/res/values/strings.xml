@@ -48,6 +48,9 @@
 
     <string name="email">e-mail</string>
     <string name="password">hasło</string>
+    <string name="retypePassword">powtórz hasło</string>
+
+    <string name="setGoal">Określ swój cel kalorii i makroskładników</string>
 
     <string-array name="simpleProducts">
         <item>Ogórek</item>

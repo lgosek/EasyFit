@@ -1,5 +1,6 @@
 package com.example.easyfit.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -205,6 +206,10 @@ public class GoalsEditActivity extends AppCompatActivity {
                 editor.putInt("fatGoal", fatPicker.getValue());
                 editor.apply();
 
+                if(getIntent().getBooleanExtra("initialEdit", false)){
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                }
                 finish();
                 break;
         }

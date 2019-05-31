@@ -39,7 +39,8 @@ public class LauncherActivity extends AppCompatActivity {
     }
 
     public void createAccount(View view) {
-        Toast.makeText(this, "Create Account", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, CreateAccountActivity.class);
+        startActivityForResult(intent, 0);
     }
 
     public void login(View view) {
