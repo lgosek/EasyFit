@@ -35,6 +35,13 @@
     <string name="goal">Cel</string>
     <string name="eaten">Spożyte</string>
     <string name="left">Pozostało</string>
+    <string name="eatenCalories">Spożyte kalorie: </string>
+    <string name="carbsColon">Węglowodany: </string>
+    <string name="proteinsColon">Białko: </string>
+    <string name="fatColon">Tłuszcz: </string>
+    <string name="grams">g</string>
+    <string name="placeholder100">100</string>
+    <string name="placeholderDate">12.02.2018</string>
 
     <string name="addProduct">Dodaj produkt</string>
     <string name="endDay">Zakończ dzień</string>
@@ -65,15 +72,46 @@
     </string-array>
 
     <string-array name="grams">
-        <item>50</item>
         <item>100</item>
         <item>200</item>
+        <item>300</item>
     </string-array>
 
     <string-array name="meals">
         <item>Schabowy</item>
         <item>Zupa</item>
         <item>Pizza</item>
+    </string-array>
+
+    <string-array name="dates">
+        <item>12.02.2018</item>
+        <item>13.02.2018</item>
+        <item>14.02.2018</item>
+        <item>15.02.2018</item>
+        <item>16.02.2018</item>
+        <item>17.02.2018</item>
+        <item>18.02.2018</item>
+
+    </string-array>
+
+    <string-array name="calories">
+        <item>2000</item>
+        <item>3000</item>
+        <item>4000</item>
+        <item>5000</item>
+        <item>6000</item>
+        <item>7000</item>
+        <item>8000</item>
+    </string-array>
+
+    <string-array name="grams2">
+        <item>100</item>
+        <item>200</item>
+        <item>300</item>
+        <item>400</item>
+        <item>500</item>
+        <item>600</item>
+        <item>700</item>
     </string-array>
 
 
