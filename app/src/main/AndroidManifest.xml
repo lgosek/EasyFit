@@ -13,8 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity
-            android:name=".activities.AddSimpleProductActivity"/>
+        <activity android:name=".activities.ChooseIngredientActivity"></activity>
+        <activity android:name=".activities.AddMealActivity" />
+        <activity android:name=".activities.AddSimpleProductActivity" />
         <activity
             android:name=".activities.CreateAccountActivity"
             android:parentActivityName=".activities.LauncherActivity" />

@@ -37,6 +37,10 @@ public class DataManager {
         this.simpleProductsAdapter = adapter;
     }
 
+    public SimpleProductsAdapter getSimpleProductsAdapter() {
+        return simpleProductsAdapter;
+    }
+
     public List<SimpleProduct> getSimpleProducts(){
         return simpleProducts;
     }

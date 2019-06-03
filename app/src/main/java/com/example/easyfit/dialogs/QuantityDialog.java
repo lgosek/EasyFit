@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -33,9 +34,14 @@ public class QuantityDialog extends DialogFragment {
 
     private SimpleProduct product;
     private Activity currentActivity;
+    private String intention = "addEatenProduct";
 
     public void setProduct(SimpleProduct product){
         this.product = product;
+    }
+
+    public void setIntention(String intention) {
+        this.intention = intention;
     }
 
     @NonNull
@@ -56,31 +62,22 @@ public class QuantityDialog extends DialogFragment {
         builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(!quantity.getText().toString().equals("")) {
+                if(!quantity.getText().toString().equals("") && Integer.parseInt(quantity.getText().toString())!=0) {
                     //getActivity().finish();
-                    List<EatenProduct> eatenProducts = new ArrayList<>();
-                    eatenProducts.add(new EatenProduct(product.getId(),Integer.parseInt(quantity.getText().toString())));
-
-                    Call<String> call = Connector.getInstance().saveEatenMeals(new EatenProductsWrapper(1,eatenProducts));
-                    call.enqueue(new Callback<String>(){
-                        @Override
-                        public void onResponse(Call<String> call, Response<String> response) {
-                            Log.i("app", ""+response.code());
-                            currentActivity.finish();
-                        }
-
-                        @Override
-                        public void onFailure(Call<String> call, Throwable t) {
-                            Log.i("app", t.getMessage());
-                            currentActivity.finish();
-                        }
-                    });
+                    switch(intention){
+                        case "addEatenProduct":
+                            addEatenProduct();
+                            break;
+                        case "addMealIngredient":
+                            returnChosenIngredient();
+                            break;
+                    }
 
 
                 }
-//                else{
-//                    Toast.makeText(getContext(), "Wprowadź poprawną ilość!", Toast.LENGTH_SHORT).show();
-//                }
+                else{
+                    Toast.makeText(getContext(), "Wprowadź poprawną ilość!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -92,6 +89,36 @@ public class QuantityDialog extends DialogFragment {
         });
 
         return builder.create();
+    }
+
+    private void returnChosenIngredient() {
+        String quantityValue = quantity.getText().toString();
+        Intent intent = new Intent();
+        intent.putExtra("product", product);
+        intent.putExtra("quantity", quantityValue);
+
+        currentActivity.setResult(Activity.RESULT_OK, intent);
+        currentActivity.finish();
+    }
+
+    private void addEatenProduct(){
+        List<EatenProduct> eatenProducts = new ArrayList<>();
+        eatenProducts.add(new EatenProduct(product.getId(),Integer.parseInt(quantity.getText().toString())));
+
+        Call<String> call = Connector.getInstance().saveEatenMeals(new EatenProductsWrapper(1,eatenProducts));
+        call.enqueue(new Callback<String>(){
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.i("app", ""+response.code());
+                currentActivity.finish();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.i("app", t.getMessage());
+                currentActivity.finish();
+            }
+        });
     }
 
     public void setCurrentActivity(Activity currentActivity) {

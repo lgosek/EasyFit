@@ -2,7 +2,9 @@ package com.example.easyfit.apiConnector;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SimpleProduct {
+import java.io.Serializable;
+
+public class SimpleProduct implements Serializable {
     public SimpleProduct(int id, String name, double kcal, double proteins, double fats, double carbohydrates) {
         this.id = id;
         this.name = name;

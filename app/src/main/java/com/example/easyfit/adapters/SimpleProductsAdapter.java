@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.easyfit.R;
 import com.example.easyfit.activities.AddEatenProductActivity;
+import com.example.easyfit.activities.ChooseIngredientActivity;
 import com.example.easyfit.apiConnector.SimpleProduct;
 import com.example.easyfit.clickListeners.ItemClickListener;
 import com.example.easyfit.dialogs.QuantityDialog;
@@ -50,13 +51,16 @@ public class SimpleProductsAdapter extends RecyclerView.Adapter<SimpleProductsAd
         simpleProductsHolder.calories.setText(Double.toString(products.get(i).getKcal()));
 
 
-        if (currentActivity != null && currentActivity.getClass() == AddEatenProductActivity.class) {
+        if (currentActivity != null && (currentActivity.getClass() == AddEatenProductActivity.class || currentActivity.getClass() == ChooseIngredientActivity.class)) {
             simpleProductsHolder.setItemClickListener(new ItemClickListener() {
                 @Override
                 public void onClick(View view, int position, boolean isLongClick) {
                     //Toast.makeText(context, "clicked in adding" + position, Toast.LENGTH_SHORT).show();
 
-                    addingProductAction(position);
+                    boolean ifAddingProduct = true;
+                    if(currentActivity.getClass() == ChooseIngredientActivity.class)
+                        ifAddingProduct = false;
+                    addingProductAction(position, ifAddingProduct);
                 }
             });
         }
@@ -70,10 +74,12 @@ public class SimpleProductsAdapter extends RecyclerView.Adapter<SimpleProductsAd
         }
     }
 
-    private void addingProductAction(int position) {
+    private void addingProductAction(int position, boolean ifAddingProduct) {
         QuantityDialog dialog = new QuantityDialog();
         dialog.setProduct(products.get(position));
         dialog.setCurrentActivity(currentActivity);
+        if(!ifAddingProduct)
+            dialog.setIntention("addMealIngredient");
         dialog.show(((AppCompatActivity)context).getSupportFragmentManager(), "QUANTITY_DIALOG");
     }
 

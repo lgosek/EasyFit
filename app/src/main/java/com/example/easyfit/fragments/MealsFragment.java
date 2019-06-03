@@ -1,5 +1,6 @@
 package com.example.easyfit.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.easyfit.R;
+import com.example.easyfit.activities.AddMealActivity;
 import com.example.easyfit.activities.MainActivity;
 import com.example.easyfit.adapters.MealsAdapter;
 
@@ -57,7 +59,9 @@ public class MealsFragment extends Fragment {
         this.addMealButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Add meal", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Add meal", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), AddMealActivity.class);
+                startActivity(intent);
             }
         });
     }
