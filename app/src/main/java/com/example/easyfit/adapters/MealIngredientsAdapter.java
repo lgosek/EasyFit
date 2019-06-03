@@ -27,6 +27,14 @@ public class MealIngredientsAdapter extends RecyclerView.Adapter<MealIngredients
         this.quantites = new LinkedList<>();
     }
 
+    public List<SimpleProduct> getProducts() {
+        return products;
+    }
+
+    public List<String> getQuantites() {
+        return quantites;
+    }
+
     public void addProduct(SimpleProduct product){
         this.products.add(product);
     }

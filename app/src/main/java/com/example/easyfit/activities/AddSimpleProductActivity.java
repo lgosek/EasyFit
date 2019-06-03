@@ -14,6 +14,7 @@ import com.example.easyfit.R;
 import com.example.easyfit.apiConnector.Connector;
 import com.example.easyfit.apiConnector.EatenProduct;
 import com.example.easyfit.apiConnector.EatenProductsWrapper;
+import com.example.easyfit.apiConnector.NewSimpleProduct;
 import com.example.easyfit.apiConnector.SimpleProduct;
 import com.example.easyfit.apiConnector.SimpleProductWrapper;
 
@@ -60,19 +61,18 @@ public class AddSimpleProductActivity extends AppCompatActivity {
 
     private void storeProduct() {
 //        List<SimpleProduct> newProducts = new ArrayList<>();
-        SimpleProduct newProduct = new SimpleProduct(
-                100,
+        NewSimpleProduct newProduct = new NewSimpleProduct(
                 nameEdit.getText().toString(),
                 Double.parseDouble(caloriesEdit.getText().toString()),
                 Double.parseDouble(proteinsEdit.getText().toString()),
                 Double.parseDouble(fatEdit.getText().toString()),
                 Double.parseDouble(carbsEdit.getText().toString()));
 
-        Call<String> call = Connector.getInstance().saveSimpleProduct(new SimpleProductWrapper(newProduct));
+        Call<String> call = Connector.getInstance().saveSimpleProduct(newProduct);
         call.enqueue(new Callback<String>(){
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.i("app", ""+response.code());
+                Log.i("app", ""+response.code()+response.body());
                 finish();
             }
 

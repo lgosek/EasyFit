@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +17,16 @@ import android.widget.Toast;
 
 import com.example.easyfit.R;
 import com.example.easyfit.adapters.MealIngredientsAdapter;
+import com.example.easyfit.apiConnector.ComplexMealIngredients;
+import com.example.easyfit.apiConnector.Connector;
+import com.example.easyfit.apiConnector.NewComplexMeal;
 import com.example.easyfit.apiConnector.SimpleProduct;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddMealActivity extends AppCompatActivity {
 
@@ -55,11 +65,41 @@ public class AddMealActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.mealAddAccept:
-//                TODO check if name was entered and at least one ingredient exists, save meal in database
+                storeMeal();
                 finish();
                 break;
         }
         return true;
+    }
+    public void storeMeal(){
+        if(adapter.getItemCount()>0){
+            List<SimpleProduct> products = adapter.getProducts();
+            List<String> quantities = adapter.getQuantites();
+
+            NewComplexMeal complexMeal = new NewComplexMeal(mealNameEdit.getText().toString());
+
+            while (!products.isEmpty()){
+                complexMeal.addIngredients(new ComplexMealIngredients(products.remove(0).getId(),Integer.parseInt(quantities.remove(0))));
+            }
+
+
+
+            Call<String> call = Connector.getInstance().saveComplexMeal(complexMeal);
+            call.enqueue(new Callback<String>(){
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    Log.i("app", ""+response.code()+response.body());
+                    finish();
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Log.i("app", t.getMessage());
+                    finish();
+                }
+            });
+
+        }
     }
 
     public void addIngredient(View view) {
