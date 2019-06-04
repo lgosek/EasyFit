@@ -17,6 +17,7 @@ import com.example.easyfit.apiConnector.EatenProductsWrapper;
 import com.example.easyfit.apiConnector.NewSimpleProduct;
 import com.example.easyfit.apiConnector.SimpleProduct;
 import com.example.easyfit.apiConnector.SimpleProductWrapper;
+import com.example.easyfit.dataManager.DataManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,13 +73,15 @@ public class AddSimpleProductActivity extends AppCompatActivity {
         call.enqueue(new Callback<String>(){
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.i("app", ""+response.code()+response.body());
+                Log.i("appOk", ""+response.code()+response.body());
+                DataManager.getInstance().synchronizeSimpleProducts(true);
                 finish();
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.i("app", t.getMessage());
+                Log.i("appNotOk", t.getMessage());
+                DataManager.getInstance().synchronizeSimpleProducts(true);
                 finish();
             }
         });

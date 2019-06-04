@@ -64,6 +64,7 @@
     <string name="name">Nazwa</string>
     <string name="kcalin100g">/100g</string>
     <string name="in100g">g/100g</string>
+    <string name="kcal">kcal</string>
 
     <string-array name="simpleProducts">
         <item>Ogórek</item>

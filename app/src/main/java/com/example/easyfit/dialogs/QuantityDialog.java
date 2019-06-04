@@ -62,7 +62,7 @@ public class QuantityDialog extends DialogFragment {
         builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(!quantity.getText().toString().equals("") && Integer.parseInt(quantity.getText().toString())!=0) {
+                if(!quantity.getText().toString().equals("") && Double.parseDouble(quantity.getText().toString())!=0) {
                     //getActivity().finish();
                     switch(intention){
                         case "addEatenProduct":
@@ -103,7 +103,7 @@ public class QuantityDialog extends DialogFragment {
 
     private void addEatenProduct(){
         List<EatenProduct> eatenProducts = new ArrayList<>();
-        eatenProducts.add(new EatenProduct(product.getId(),Integer.parseInt(quantity.getText().toString())));
+        eatenProducts.add(new EatenProduct(product.getId(),Double.parseDouble(quantity.getText().toString())));
 
         Call<String> call = Connector.getInstance().saveEatenMeals(new EatenProductsWrapper(1,eatenProducts));
         call.enqueue(new Callback<String>(){
