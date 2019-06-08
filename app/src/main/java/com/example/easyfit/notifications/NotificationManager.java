@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
+import com.example.easyfit.apiConnector.Connector;
 import com.example.easyfit.receivers.AlarmsBoradcastReceiver;
 
 import java.sql.Time;
@@ -16,6 +17,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
+import retrofit2.Call;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -46,6 +49,9 @@ public class NotificationManager {
         if(!this.notificationTimes.contains(t)) {
             this.notificationTimes.add(t);
             Collections.sort(this.notificationTimes, new Comparator());
+
+
+
             return true;
         }
         return false;

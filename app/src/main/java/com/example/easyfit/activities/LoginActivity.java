@@ -9,14 +9,19 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.easyfit.R;
+import com.example.easyfit.adapters.NotificationAdapter;
 import com.example.easyfit.apiConnector.Connector;
 import com.example.easyfit.apiConnector.EatenMealDetailed;
 import com.example.easyfit.apiConnector.Goals;
+import com.example.easyfit.apiConnector.Notification;
 import com.example.easyfit.apiConnector.User;
 import com.example.easyfit.apiConnector.UserId;
 import com.example.easyfit.notifications.NotificationManager;
 
+import java.sql.Time;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,6 +73,33 @@ public class LoginActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<Goals> call, Throwable t) {
+
+                        }
+                    });
+
+                    Call<List<String>> callNotifications = Connector.getInstance().getNotifications(response.body().getId());
+                    callNotifications.enqueue(new Callback<List<String>>() {
+                        @Override
+                        public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                            if(response.isSuccessful()){
+                                for(String time:response.body()){
+                                    Pattern pattern = Pattern.compile("(\\d{1,2}):(\\d{1,2}):(\\d{1,2})");
+
+                                    Matcher matcher = pattern.matcher(time);
+                                    if(matcher.matches()){
+                                        int hr = Integer.parseInt(matcher.group(1));
+                                        int min = Integer.parseInt(matcher.group(2));
+
+                                        NotificationManager.getInstance().setAlarm(thisReference.getApplicationContext(),time,hr,min);
+                                        NotificationManager.getInstance().add(Time.valueOf(time));
+
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<String>> call, Throwable t) {
 
                         }
                     });

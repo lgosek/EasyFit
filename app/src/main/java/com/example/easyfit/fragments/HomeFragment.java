@@ -120,7 +120,7 @@ public class HomeFragment extends Fragment {
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         Log.i("app", Integer.toString(year) + Integer.toString(month) + Integer.toString(day));
-        
+
 
         Call<List<EatenMealDetailed>> call = Connector.getInstance().getEatenMealsDetailed(sh.getInt("loggedInId", -1),year,month,day);
         call.enqueue(new Callback<List<EatenMealDetailed>>() {
