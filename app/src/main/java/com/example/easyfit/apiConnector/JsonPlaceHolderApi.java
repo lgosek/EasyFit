@@ -39,4 +39,7 @@ public interface JsonPlaceHolderApi {
     @POST("/login")
     Call<UserId>logIn(@Body User user);
 
+    @POST("/register")
+    Call<UserId>register(@Body User user);
+
 }
