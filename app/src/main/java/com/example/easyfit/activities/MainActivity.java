@@ -163,4 +163,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //    public NotificationManager getNotificationManager(){
 //        return this.notificationManager;
 //    }
+
+    public String getSharedPreferencesFileName(){
+        return this.sharedPreferencesFileName;
+    }
 }
