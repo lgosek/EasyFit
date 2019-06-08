@@ -3,8 +3,10 @@ package com.example.easyfit.dialogs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.easyfit.R;
+import com.example.easyfit.activities.MainActivity;
 import com.example.easyfit.apiConnector.Connector;
 import com.example.easyfit.apiConnector.EatenProduct;
 import com.example.easyfit.apiConnector.EatenProductsWrapper;
@@ -27,6 +30,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class QuantityDialog extends DialogFragment {
 
@@ -42,6 +47,15 @@ public class QuantityDialog extends DialogFragment {
 
     public void setIntention(String intention) {
         this.intention = intention;
+    }
+
+    private final String sharedPreferencesFileName = "com.example.easyfit.sharedpreferences";
+
+    Activity activity;
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity=activity;
     }
 
     @NonNull
@@ -62,7 +76,7 @@ public class QuantityDialog extends DialogFragment {
         builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(!quantity.getText().toString().equals("") && Double.parseDouble(quantity.getText().toString())!=0) {
+                if(!quantity.getText().toString().equals("") && Integer.parseInt(quantity.getText().toString())!=0) {
                     //getActivity().finish();
                     switch(intention){
                         case "addEatenProduct":
@@ -103,9 +117,10 @@ public class QuantityDialog extends DialogFragment {
 
     private void addEatenProduct(){
         List<EatenProduct> eatenProducts = new ArrayList<>();
-        eatenProducts.add(new EatenProduct(product.getId(),Double.parseDouble(quantity.getText().toString())));
+        eatenProducts.add(new EatenProduct(product.getId(),Integer.parseInt(quantity.getText().toString())));
+        SharedPreferences sh = activity.getSharedPreferences(this.sharedPreferencesFileName, MODE_PRIVATE);
 
-        Call<String> call = Connector.getInstance().saveEatenMeals(new EatenProductsWrapper(1,eatenProducts));
+        Call<String> call = Connector.getInstance().saveEatenMeals(new EatenProductsWrapper(sh.getInt("loggedInId", -1),eatenProducts));
         call.enqueue(new Callback<String>(){
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -124,4 +139,5 @@ public class QuantityDialog extends DialogFragment {
     public void setCurrentActivity(Activity currentActivity) {
         this.currentActivity = currentActivity;
     }
+
 }

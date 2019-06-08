@@ -36,4 +36,7 @@ public interface JsonPlaceHolderApi {
     @POST("/complexMeals")
     Call<String>saveComplexMeal(@Body NewComplexMeal newComplexMeal);
 
+    @POST("/login")
+    Call<UserId>logIn(@Body User user);
+
 }

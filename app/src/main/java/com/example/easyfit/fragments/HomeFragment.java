@@ -120,7 +120,7 @@ public class HomeFragment extends Fragment {
 
         Log.i("app", Integer.toString(year) + Integer.toString(month) + Integer.toString(day));
 
-        Call<List<EatenMealDetailed>> call = Connector.getInstance().getEatenMealsDetailed(1,year,month,day);
+        Call<List<EatenMealDetailed>> call = Connector.getInstance().getEatenMealsDetailed(sh.getInt("loggedInId", -1),year,month,day);
         call.enqueue(new Callback<List<EatenMealDetailed>>() {
             @Override
             public void onResponse(Call<List<EatenMealDetailed>> call, Response<List<EatenMealDetailed>> response) {
