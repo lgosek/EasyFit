@@ -24,6 +24,7 @@ import com.example.easyfit.activities.GoalsEditActivity;
 import com.example.easyfit.adapters.EatenMealsAdapter;
 import com.example.easyfit.apiConnector.Connector;
 import com.example.easyfit.apiConnector.EatenMealDetailed;
+import com.example.easyfit.apiConnector.Notification;
 import com.example.easyfit.apiConnector.SimpleProduct;
 
 import java.util.ArrayList;
@@ -119,6 +120,7 @@ public class HomeFragment extends Fragment {
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         Log.i("app", Integer.toString(year) + Integer.toString(month) + Integer.toString(day));
+        
 
         Call<List<EatenMealDetailed>> call = Connector.getInstance().getEatenMealsDetailed(sh.getInt("loggedInId", -1),year,month,day);
         call.enqueue(new Callback<List<EatenMealDetailed>>() {

@@ -4,7 +4,9 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -48,6 +50,15 @@ public interface JsonPlaceHolderApi {
 
     @PUT("/goals/{userId}")
     Call<Void>updateGoals(@Path("userId") int userId, @Body Goals goals);
+
+    @GET("/notifications/{userId}")
+    Call<List<String>>getNotifications(@Path("userId") int userId);
+
+    @POST("/notifications/{userId}")
+    Call<Void>addNotification(@Path("userId") int userId, @Body Notification notification);
+
+    @HTTP(method = "DELETE", path = "/notifications/{userId}", hasBody = true)
+    Call<Void>deleteNotification(@Path("userId") int userId, @Body Notification notification);
 
 
 }
