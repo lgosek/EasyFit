@@ -6,6 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface JsonPlaceHolderApi {
@@ -41,5 +42,12 @@ public interface JsonPlaceHolderApi {
 
     @POST("/register")
     Call<UserId>register(@Body User user);
+
+    @GET("/goals/{userId}")
+    Call<Goals>getGoals(@Path("userId") int userId);
+
+    @PUT("/goals/{userId}")
+    Call<Void>updateGoals(@Path("userId") int userId, @Body Goals goals);
+
 
 }

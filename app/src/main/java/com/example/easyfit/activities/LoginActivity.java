@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.easyfit.R;
 import com.example.easyfit.apiConnector.Connector;
 import com.example.easyfit.apiConnector.EatenMealDetailed;
+import com.example.easyfit.apiConnector.Goals;
 import com.example.easyfit.apiConnector.User;
 import com.example.easyfit.apiConnector.UserId;
 import com.example.easyfit.notifications.NotificationManager;
@@ -50,12 +51,36 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putInt("loggedInId", response.body().getId());
                     editor.apply();
 
+                    Call<Goals> callGoals =Connector.getInstance().getGoals(response.body().getId());
+                    callGoals.enqueue(new Callback<Goals>() {
+                        @Override
+                        public void onResponse(Call<Goals> call, Response<Goals> response) {
+                            if(response.isSuccessful()){
+                                SharedPreferences sh = getSharedPreferences(thisReference.sharedPreferencesFileName, MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sh.edit();
+                                editor.putString("caloriesGoal", Integer.toString((int) response.body().getKcal()));
+                                editor.putInt("proteinsGoal", response.body().getProteins());
+                                editor.putInt("carbsGoal", response.body().getCarbohydrates());
+                                editor.putInt("fatGoal", response.body().getFats());
+                                editor.apply();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Goals> call, Throwable t) {
+
+                        }
+                    });
+
+
                     Intent intent = new Intent(thisReference, MainActivity.class);
                     startActivity(intent);
                     setResult(RESULT_OK, null);
                     finish();
-                }else{
+                }else if(response.code()==401){
                     Toast.makeText(thisReference, "Niepoprawny login lub hasło", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(thisReference, "Wystąpił błąd po stronie serwera", Toast.LENGTH_SHORT).show();
                 }
 
             }

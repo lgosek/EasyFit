@@ -15,13 +15,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.easyfit.R;
+import com.example.easyfit.apiConnector.Connector;
+import com.example.easyfit.apiConnector.Goals;
 import com.example.easyfit.notifications.NotificationManager;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class GoalsEditActivity extends AppCompatActivity {
 
     NumberPicker carbsPicker, fatPicker, proteinsPicker;
     EditText caloriesGoalEdit;
     TextView warningText, carbsGrams, protGrams, fatGrams;
+
+    GoalsEditActivity thisReference = this;
 
     int FATCALS = 9;
     int CARBSCALS = 4;
@@ -197,20 +205,41 @@ public class GoalsEditActivity extends AppCompatActivity {
                     break;
                 }
 
-                //saving data to shared preferences file
-                SharedPreferences sh = getSharedPreferences(this.sharedPreferencesFileName, MODE_PRIVATE);
-                SharedPreferences.Editor editor = sh.edit();
-                editor.putString("caloriesGoal", caloriesGoalEdit.getText().toString());
-                editor.putInt("proteinsGoal", proteinsPicker.getValue());
-                editor.putInt("carbsGoal", carbsPicker.getValue());
-                editor.putInt("fatGoal", fatPicker.getValue());
-                editor.apply();
 
-                if(getIntent().getBooleanExtra("initialEdit", false)){
-                    Intent intent = new Intent(this, MainActivity.class);
-                    startActivity(intent);
-                }
-                finish();
+                SharedPreferences sh = getSharedPreferences(thisReference.sharedPreferencesFileName, MODE_PRIVATE);
+
+
+                Call<Void> call = Connector.getInstance().updateGoals(sh.getInt("loggedInId",-1), new Goals(Double.parseDouble(caloriesGoalEdit.getText().toString()),proteinsPicker.getValue(),fatPicker.getValue(),carbsPicker.getValue()));
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if(response.isSuccessful()){
+                            SharedPreferences sh = getSharedPreferences(thisReference.sharedPreferencesFileName, MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sh.edit();
+                            editor.putString("caloriesGoal", caloriesGoalEdit.getText().toString());
+                            editor.putInt("proteinsGoal", proteinsPicker.getValue());
+                            editor.putInt("carbsGoal", carbsPicker.getValue());
+                            editor.putInt("fatGoal", fatPicker.getValue());
+                            editor.apply();
+
+                            if(getIntent().getBooleanExtra("initialEdit", false)){
+                                Intent intent = new Intent(thisReference, MainActivity.class);
+                                startActivity(intent);
+                            }
+                            finish();
+                        }else{
+                            Toast.makeText(thisReference, "Wystąpił problem", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(thisReference, "Problem z połączeniem", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
                 break;
         }
         return true;
