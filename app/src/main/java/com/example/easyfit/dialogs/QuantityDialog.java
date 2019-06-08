@@ -38,6 +38,7 @@ public class QuantityDialog extends DialogFragment {
     EditText quantity;
 
     private SimpleProduct product;
+    // TODO jakieś pole na posiłek złożony
     private Activity currentActivity;
     private String intention = "addEatenProduct";
 
@@ -85,6 +86,9 @@ public class QuantityDialog extends DialogFragment {
                         case "addMealIngredient":
                             returnChosenIngredient();
                             break;
+                        case "addEatenMeal":
+                            addEatenMeal();
+                            break;
                     }
 
 
@@ -103,6 +107,10 @@ public class QuantityDialog extends DialogFragment {
         });
 
         return builder.create();
+    }
+
+    private void addEatenMeal() {
+        Toast.makeText(currentActivity, "wybrano ilość " + quantity.getText().toString(), Toast.LENGTH_SHORT).show();
     }
 
     private void returnChosenIngredient() {

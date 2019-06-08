@@ -68,7 +68,7 @@ public class SimpleProductsAdapter extends RecyclerView.Adapter<SimpleProductsAd
             simpleProductsHolder.setItemClickListener(new ItemClickListener() {
                 @Override
                 public void onClick(View view, int position, boolean isLongClick) {
-                    Toast.makeText(context, "clicked in products" + position, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "clicked in products" + position, Toast.LENGTH_SHORT).show();
                 }
             });
         }

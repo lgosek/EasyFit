@@ -48,7 +48,7 @@ public class MealsFragment extends Fragment {
         meals = view.getResources().getStringArray(R.array.meals);
         calories = view.getResources().getStringArray(R.array.simpleProductsCalories);
 
-        adapter = new MealsAdapter(this.getContext(), meals, calories);
+        adapter = new MealsAdapter(this.getContext(), meals, calories, getActivity());
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
