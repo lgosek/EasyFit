@@ -16,7 +16,9 @@ import com.example.easyfit.activities.AddEatenProductActivity;
 import com.example.easyfit.activities.ChooseIngredientActivity;
 import com.example.easyfit.apiConnector.ComplexMeal;
 import com.example.easyfit.clickListeners.ItemClickListener;
+import com.example.easyfit.dialogs.MealDialog;
 import com.example.easyfit.dialogs.QuantityDialog;
+import com.example.easyfit.dialogs.SimpleProductDialog;
 
 import java.util.List;
 
@@ -65,11 +67,18 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.MealHolder> 
             mealHolder.setItemClickListener(new ItemClickListener() {
                 @Override
                 public void onClick(View view, int position, boolean isLongClick) {
+                    mealDetails(position);
 //                    Toast.makeText(context, "clicked in meals products" + position, Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
+    }
+
+    private void mealDetails(int position) {
+        MealDialog dialog = new MealDialog();
+        dialog.setMeal(meals.get(position));
+        dialog.show(((AppCompatActivity)context).getSupportFragmentManager(), "MEAL_DIALOG");
     }
 
     private void addingProductAction(int position) {

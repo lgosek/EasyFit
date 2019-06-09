@@ -4,6 +4,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.POST;
@@ -64,6 +65,9 @@ public interface JsonPlaceHolderApi {
 
     @POST("/eatenComplexMeal")
     Call<Void>saveEatenComplexMeal(@Body NewEatenComplexMeal meal);
+
+    @GET("/complexMealDetailed/{id}")
+    Call<ComplexMealDetailed>getComplexMealDetailed(@Path("id") int id);
 
     @GET("/eatenMeals/{userId}")
     Call<List<HistoryItem>>getHistory(@Path("userId") int userId);
