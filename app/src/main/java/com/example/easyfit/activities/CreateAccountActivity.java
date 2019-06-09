@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -72,12 +74,29 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         }
         else{
-            Toast.makeText(this, "Hasła się różnią!", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Hasła się różnią!", Toast.LENGTH_SHORT).show();
         }
 
     }
 
     private boolean validate() {
-        return password1.getText().toString().equals(password2.getText().toString());
+        boolean result = true;
+        if(!isValidEmail(email.getText().toString())) {
+            Toast.makeText(thisReference, "Wprowadź poprawny adres email!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(!password1.getText().toString().equals(password2.getText().toString())){
+            Toast.makeText(thisReference, "Hasła się różnią!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(password1.getText().toString().length() < 8){
+            Toast.makeText(thisReference, "Hasło musi mieć minimum 8 znaków!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isValidEmail(CharSequence target) {
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 }
