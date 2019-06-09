@@ -53,7 +53,17 @@ public class HistoryItem {
     }
 
     public String getDate(){
-        return ""+this.day+"."+this.month+"."+this.year;
+        String sDay = ""+this.day;
+        String sMonth = ""+this.month;
+
+        if(this.month<10){
+            sMonth = "0"+sMonth;
+        }
+        if(this.day<10){
+            sDay = "0"+sDay;
+        }
+
+        return sDay+"."+sMonth+"."+this.year;
     }
 
 }
