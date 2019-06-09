@@ -17,24 +17,28 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.easyfit.R;
+import com.example.easyfit.apiConnector.HistoryItem;
 import com.example.easyfit.notifications.NotificationManager;
 import com.example.easyfit.receivers.AlarmsBoradcastReceiver;
 
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.Context.ALARM_SERVICE;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryHolder> {
 
     private Context context;
-    String[] dates, calories, grams;
+    List<HistoryItem> historyItems;
 
     public HistoryAdapter(Context ct){
+        this.historyItems = new ArrayList<>();
         this.context = ct;
+    }
 
-        dates = context.getApplicationContext().getResources().getStringArray(R.array.dates);
-        calories = context.getApplicationContext().getResources().getStringArray(R.array.calories);
-        grams = context.getApplicationContext().getResources().getStringArray(R.array.grams2);
+    public List<HistoryItem> getHistoryItems() {
+        return historyItems;
     }
 
     @NonNull
@@ -50,19 +54,16 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
 
     @Override
     public void onBindViewHolder(@NonNull HistoryHolder historyHolder, int i) {
-        historyHolder.date.setText(dates[i]);
-        historyHolder.calories.setText(calories[i]);
-        historyHolder.carbs.setText(grams[i]);
-        historyHolder.prots.setText(grams[i]);
-        historyHolder.fat.setText(grams[i]);
+        historyHolder.date.setText(historyItems.get(i).getDate());
+        historyHolder.calories.setText(""+((int)Math.round(historyItems.get(i).getKcal())));
+        historyHolder.carbs.setText(""+((int)Math.round(historyItems.get(i).getCarbohydrates())));
+        historyHolder.prots.setText(""+((int)Math.round(historyItems.get(i).getProteins())));
+        historyHolder.fat.setText(""+((int)Math.round(historyItems.get(i).getFats())));
     }
 
     @Override
     public int getItemCount() {
-        if(dates!=null)
-            return this.dates.length;
-        else
-            return 0;
+        return this.historyItems.size();
     }
 
     public class HistoryHolder extends RecyclerView.ViewHolder {
