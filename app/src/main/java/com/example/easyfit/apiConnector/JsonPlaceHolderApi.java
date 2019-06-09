@@ -16,6 +16,9 @@ public interface JsonPlaceHolderApi {
     @GET("/simpleProducts")
     Call<List<SimpleProduct>> getSimpleProducts();
 
+    @GET("/complexMeals")
+    Call<List<ComplexMeal>> getComplexMeals();
+
     @GET("/EatenMeals/{userId}/{year}/{month}/{day}")
     Call<EatenMeals> getEatenMeals(
             @Path("userId") int userId,
@@ -34,10 +37,10 @@ public interface JsonPlaceHolderApi {
     Call<String>saveEatenMeals(@Body EatenProductsWrapper wrapper);
 
     @POST("/simpleProducts")
-    Call<String>saveSimpleProduct(@Body NewSimpleProduct newSimpleProduct);
+    Call<ID>saveSimpleProduct(@Body NewSimpleProduct newSimpleProduct);
 
     @POST("/complexMeals")
-    Call<String>saveComplexMeal(@Body NewComplexMeal newComplexMeal);
+    Call<ID>saveComplexMeal(@Body NewComplexMeal newComplexMeal);
 
     @POST("/login")
     Call<UserId>logIn(@Body User user);
@@ -59,6 +62,9 @@ public interface JsonPlaceHolderApi {
 
     @HTTP(method = "DELETE", path = "/notifications/{userId}", hasBody = true)
     Call<Void>deleteNotification(@Path("userId") int userId, @Body Notification notification);
+
+    @POST("/eatenComplexMeal")
+    Call<Void>saveEatenComplexMeal(@Body NewEatenComplexMeal meal);
 
 
 }

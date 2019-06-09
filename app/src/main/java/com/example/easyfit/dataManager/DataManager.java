@@ -1,13 +1,12 @@
 package com.example.easyfit.dataManager;
 
-import android.os.Build;
 import android.text.format.Time;
 import android.util.Log;
 
-import com.example.easyfit.adapters.EatenMealsAdapter;
+import com.example.easyfit.adapters.MealsAdapter;
 import com.example.easyfit.adapters.SimpleProductsAdapter;
+import com.example.easyfit.apiConnector.ComplexMeal;
 import com.example.easyfit.apiConnector.Connector;
-import com.example.easyfit.apiConnector.EatenMealDetailed;
 import com.example.easyfit.apiConnector.SimpleProduct;
 
 import java.util.ArrayList;
@@ -20,29 +19,45 @@ import retrofit2.Response;
 public class DataManager {
     private static DataManager instance;
     private static List<SimpleProduct> simpleProducts;
-    private Time time;
+    private static List<ComplexMeal> complexMeals;
+    private Time timeSimpleProducts;
+    private Time timeComplexMeals;
     private SimpleProductsAdapter simpleProductsAdapter;
-    private boolean firstDownloadedFlag;
+    private MealsAdapter complexMealsAdapter;
+    private boolean firstDownloadedSimpleProductsFlag;
+    private boolean firstDownloadedComplexMealsFlag;
 
 
     private DataManager() {
         simpleProducts = new ArrayList<>();
-        getDataFromAPI(simpleProducts);
-        firstDownloadedFlag = false;
-        time = new Time();
-        time.setToNow();
+        this.getSpDataFromAPI(simpleProducts);
+        complexMeals = new ArrayList<>();
+        this.getCmDataFromAPI(complexMeals);
+        firstDownloadedSimpleProductsFlag = false;
+        firstDownloadedComplexMealsFlag = false;
+        timeSimpleProducts = new Time();
+        timeSimpleProducts.setToNow();
+        timeComplexMeals = new Time();
+        timeComplexMeals.setToNow();
     }
 
     public void setAdapter(SimpleProductsAdapter adapter) {
         this.simpleProductsAdapter = adapter;
     }
 
+    public void setAdapter(MealsAdapter adapter) {
+        this.complexMealsAdapter = adapter;
+    }
     public SimpleProductsAdapter getSimpleProductsAdapter() {
         return simpleProductsAdapter;
     }
 
     public List<SimpleProduct> getSimpleProducts(){
         return simpleProducts;
+    }
+
+    public List<ComplexMeal> getComplexMeals(){
+        return complexMeals;
     }
 
     public static synchronized DataManager getInstance(){
@@ -52,7 +67,7 @@ public class DataManager {
         return instance;
     }
 
-    void getDataFromAPI(final List<SimpleProduct> spList){
+    void getSpDataFromAPI(final List<SimpleProduct> spList){
         Call<List<SimpleProduct>> call = Connector.getInstance().getSimpleProducts();
         call.enqueue(new Callback<List<SimpleProduct>>() {
             @Override
@@ -69,11 +84,39 @@ public class DataManager {
                     simpleProductsAdapter.notifyDataSetChanged();
                 }
                 Log.i("App", response.toString());
-                firstDownloadedFlag = true;
+                firstDownloadedSimpleProductsFlag = true;
             }
 
             @Override
             public void onFailure(Call<List<SimpleProduct>> call, Throwable t) {
+                Log.i("App", t.getMessage());
+            }
+        });
+
+    }
+
+    void getCmDataFromAPI(final List<ComplexMeal> spList){
+        Call<List<ComplexMeal>> call = Connector.getInstance().getComplexMeals();
+        call.enqueue(new Callback<List<ComplexMeal>>() {
+            @Override
+            public void onResponse(Call<List<ComplexMeal>> call, Response<List<ComplexMeal>> response) {
+                if(!response.isSuccessful()){
+                    Log.i("App", Integer.toString(response.code()));
+
+                }else {
+                    spList.clear();
+                    spList.addAll(response.body());
+                }
+//
+                if(!(complexMealsAdapter ==null)){
+                    complexMealsAdapter.notifyDataSetChanged();
+                }
+                Log.i("App", response.toString());
+                firstDownloadedComplexMealsFlag = true;
+            }
+
+            @Override
+            public void onFailure(Call<List<ComplexMeal>> call, Throwable t) {
                 Log.i("App", t.getMessage());
             }
         });
@@ -86,12 +129,23 @@ public class DataManager {
 
     public void synchronizeSimpleProducts(boolean forceSynchronisation){
         Time currentTime = new Time(); currentTime.setToNow();
-        Log.i("App","synchronize request"+ Long.toString(time.toMillis(false) + 10*1000) + " " +  Long.toString(currentTime.toMillis(false)));
+        Log.i("App","synchronize request"+ Long.toString(timeSimpleProducts.toMillis(false) + 10*1000) + " " +  Long.toString(currentTime.toMillis(false)));
 
-        if(forceSynchronisation || (!firstDownloadedFlag) || (time.toMillis(false) + 60*1000) < currentTime.toMillis(false)){
+        if(forceSynchronisation || (!firstDownloadedSimpleProductsFlag) || (timeSimpleProducts.toMillis(false) + 60*1000) < currentTime.toMillis(false)){
             Log.i("App","update products");
-            time.setToNow();
-            getDataFromAPI(getSimpleProducts());
+            timeSimpleProducts.setToNow();
+            this.getSpDataFromAPI(getSimpleProducts());
+        }
+    }
+
+    public void synchronizeComplexMeals(boolean forceSynchronisation){
+        Time currentTime = new Time(); currentTime.setToNow();
+        Log.i("App","synchronize request"+ Long.toString(timeComplexMeals.toMillis(false) + 10*1000) + " " +  Long.toString(currentTime.toMillis(false)));
+
+        if(forceSynchronisation || (!firstDownloadedComplexMealsFlag) || (timeComplexMeals.toMillis(false) + 60*1000) < currentTime.toMillis(false)){
+            Log.i("App","update meals");
+            timeComplexMeals.setToNow();
+            getCmDataFromAPI(getComplexMeals());
         }
     }
 

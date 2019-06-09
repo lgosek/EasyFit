@@ -19,9 +19,11 @@ import android.widget.Toast;
 
 import com.example.easyfit.R;
 import com.example.easyfit.activities.MainActivity;
+import com.example.easyfit.apiConnector.ComplexMeal;
 import com.example.easyfit.apiConnector.Connector;
 import com.example.easyfit.apiConnector.EatenProduct;
 import com.example.easyfit.apiConnector.EatenProductsWrapper;
+import com.example.easyfit.apiConnector.NewEatenComplexMeal;
 import com.example.easyfit.apiConnector.SimpleProduct;
 
 import java.util.ArrayList;
@@ -38,12 +40,16 @@ public class QuantityDialog extends DialogFragment {
     EditText quantity;
 
     private SimpleProduct product;
-    // TODO jakieś pole na posiłek złożony
+    private ComplexMeal meal;
     private Activity currentActivity;
     private String intention = "addEatenProduct";
 
     public void setProduct(SimpleProduct product){
         this.product = product;
+    }
+
+    public void setMeal(ComplexMeal meal){
+        this.meal = meal;
     }
 
     public void setIntention(String intention) {
@@ -110,7 +116,23 @@ public class QuantityDialog extends DialogFragment {
     }
 
     private void addEatenMeal() {
-        Toast.makeText(currentActivity, "wybrano ilość " + quantity.getText().toString(), Toast.LENGTH_SHORT).show();
+
+        SharedPreferences sh = activity.getSharedPreferences(this.sharedPreferencesFileName, MODE_PRIVATE);
+
+        Call<Void> call = Connector.getInstance().saveEatenComplexMeal(new NewEatenComplexMeal(sh.getInt("loggedInId", -1),meal.getId(),Integer.parseInt(quantity.getText().toString())));
+        call.enqueue(new Callback<Void>(){
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.i("app", ""+response.code());
+                currentActivity.finish();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.i("app", t.getMessage());
+                currentActivity.finish();
+            }
+        });
     }
 
     private void returnChosenIngredient() {

@@ -19,8 +19,10 @@ import com.example.easyfit.R;
 import com.example.easyfit.adapters.MealIngredientsAdapter;
 import com.example.easyfit.apiConnector.ComplexMealIngredients;
 import com.example.easyfit.apiConnector.Connector;
+import com.example.easyfit.apiConnector.ID;
 import com.example.easyfit.apiConnector.NewComplexMeal;
 import com.example.easyfit.apiConnector.SimpleProduct;
+import com.example.easyfit.dataManager.DataManager;
 
 import java.util.List;
 
@@ -84,16 +86,19 @@ public class AddMealActivity extends AppCompatActivity {
 
 
 
-            Call<String> call = Connector.getInstance().saveComplexMeal(complexMeal);
-            call.enqueue(new Callback<String>(){
+            Call<ID> call = Connector.getInstance().saveComplexMeal(complexMeal);
+            call.enqueue(new Callback<ID>(){
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
+                public void onResponse(Call<ID> call, Response<ID> response) {
+                    if(response.isSuccessful()){
+                        DataManager.getInstance().synchronizeComplexMeals(true);
+                    }
                     Log.i("app", ""+response.code()+response.body());
                     finish();
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable t) {
+                public void onFailure(Call<ID> call, Throwable t) {
                     Log.i("app", t.getMessage());
                     finish();
                 }

@@ -14,6 +14,7 @@ import com.example.easyfit.R;
 import com.example.easyfit.apiConnector.Connector;
 import com.example.easyfit.apiConnector.EatenProduct;
 import com.example.easyfit.apiConnector.EatenProductsWrapper;
+import com.example.easyfit.apiConnector.ID;
 import com.example.easyfit.apiConnector.NewSimpleProduct;
 import com.example.easyfit.apiConnector.SimpleProduct;
 import com.example.easyfit.apiConnector.SimpleProductWrapper;
@@ -52,7 +53,6 @@ public class AddSimpleProductActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.simpleProductsAddAccept:
-//                TODO save product in database
                 storeProduct();
                 finish();
                 break;
@@ -69,19 +69,18 @@ public class AddSimpleProductActivity extends AppCompatActivity {
                 Double.parseDouble(fatEdit.getText().toString()),
                 Double.parseDouble(carbsEdit.getText().toString()));
 
-        Call<String> call = Connector.getInstance().saveSimpleProduct(newProduct);
-        call.enqueue(new Callback<String>(){
+        Call<ID> call = Connector.getInstance().saveSimpleProduct(newProduct);
+        call.enqueue(new Callback<ID>(){
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<ID> call, Response<ID> response) {
                 Log.i("appOk", ""+response.code()+response.body());
                 DataManager.getInstance().synchronizeSimpleProducts(true);
                 finish();
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ID> call, Throwable t) {
                 Log.i("appNotOk", t.getMessage());
-                DataManager.getInstance().synchronizeSimpleProducts(true);
                 finish();
             }
         });

@@ -17,16 +17,16 @@ import com.example.easyfit.R;
 import com.example.easyfit.activities.AddMealActivity;
 import com.example.easyfit.activities.MainActivity;
 import com.example.easyfit.adapters.MealsAdapter;
+import com.example.easyfit.apiConnector.ComplexMeal;
+import com.example.easyfit.dataManager.DataManager;
+
+import java.util.List;
 
 public class MealsFragment extends Fragment {
 
     RecyclerView recyclerView;
 
     FloatingActionButton addMealButton;
-
-
-    // TODO remove dummy data
-    String[] meals, calories;
 
     MealsAdapter adapter;
 
@@ -45,13 +45,20 @@ public class MealsFragment extends Fragment {
             addMealButton.hide();
         }
 
-        meals = view.getResources().getStringArray(R.array.meals);
-        calories = view.getResources().getStringArray(R.array.simpleProductsCalories);
+//        meals = view.getResources().getStringArray(R.array.meals);
+//        calories = view.getResources().getStringArray(R.array.simpleProductsCalories);
 
-        adapter = new MealsAdapter(this.getContext(), meals, calories, getActivity());
+        final List<ComplexMeal> cmList = DataManager.getInstance().getComplexMeals();
+
+        adapter = new MealsAdapter(this.getContext(),cmList, getActivity());
+
+
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+        DataManager.getInstance().setAdapter(adapter);
+        DataManager.getInstance().synchronizeComplexMeals(false);
 
         return view;    }
 

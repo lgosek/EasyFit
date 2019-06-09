@@ -14,28 +14,30 @@ import android.widget.Toast;
 import com.example.easyfit.R;
 import com.example.easyfit.activities.AddEatenProductActivity;
 import com.example.easyfit.activities.ChooseIngredientActivity;
+import com.example.easyfit.apiConnector.ComplexMeal;
 import com.example.easyfit.clickListeners.ItemClickListener;
 import com.example.easyfit.dialogs.QuantityDialog;
+
+import java.util.List;
 
 public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.MealHolder> {
 
     Context context;
-    String[] meals, calories;
     Activity currentActivity;
+    List<ComplexMeal> meals;
 
 
-    public MealsAdapter(Context ct, String[] meals, String[] calories, Activity activity){
+    public MealsAdapter(Context ct,List<ComplexMeal> meals, Activity activity){
         this.context = ct;
         this.meals = meals;
-        this.calories = calories;
         this.currentActivity = activity;
     }
 
-    public MealsAdapter(Context ct, String[] meals, String[] calories) {
-        this(ct, meals, calories, null);
+    public MealsAdapter(Context ct,List<ComplexMeal> meals) {
+        this(ct, meals, null);
     }
 
-        @NonNull
+    @NonNull
     @Override
     public MealHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -45,8 +47,8 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.MealHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull MealHolder mealHolder, int i) {
-        mealHolder.name.setText(meals[i]);
-        mealHolder.calories.setText(calories[i]);
+        mealHolder.name.setText(meals.get(i).getName());
+        mealHolder.calories.setText(Double.toString(meals.get(i).getKcal()));
 
         if (currentActivity != null && currentActivity.getClass() == AddEatenProductActivity.class) {
             mealHolder.setItemClickListener(new ItemClickListener() {
@@ -73,7 +75,7 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.MealHolder> 
     private void addingProductAction(int position) {
         QuantityDialog dialog = new QuantityDialog();
         dialog.setCurrentActivity(currentActivity);
-//        TODO wpisywanie złożonego posiłku
+        dialog.setMeal(meals.get(position));
         dialog.setIntention("addEatenMeal");
         dialog.show(((AppCompatActivity)context).getSupportFragmentManager(), "QUANTITY_DIALOG");
 
@@ -81,7 +83,7 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.MealHolder> 
 
     @Override
     public int getItemCount() {
-        return meals.length;
+        return meals.size();
     }
 
     public class MealHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
