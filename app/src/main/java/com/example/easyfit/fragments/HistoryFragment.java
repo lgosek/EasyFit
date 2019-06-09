@@ -63,8 +63,10 @@ public class HistoryFragment extends Fragment {
                 }else {
                     if(response.code() == 404){
                         Toast.makeText(thisReference.getContext(), "Brak historii, sprawdź jutro", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(thisReference.getContext(), "Problem z pobraniem historii", Toast.LENGTH_SHORT).show();
                     }
-                    Toast.makeText(thisReference.getContext(), "Problem z pobraniem historii", Toast.LENGTH_SHORT).show();
+
                 }
             }
 
