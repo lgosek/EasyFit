@@ -1,5 +1,7 @@
 package com.example.easyfit.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -23,6 +25,7 @@ import com.example.easyfit.fragments.HomeFragment;
 import com.example.easyfit.fragments.NotificationsFragment;
 import com.example.easyfit.fragments.ProductsFragment;
 import com.example.easyfit.notifications.NotificationManager;
+import com.example.easyfit.receivers.AlarmsBoradcastReceiver;
 
 import java.sql.Time;
 import java.util.Set;
@@ -41,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DataManager.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         //setting up a notification manager
 //        this.notificationManager = NotificationManager.getInstance();
 
@@ -124,6 +126,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_logout:
 //                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+
+//                SharedPreferences sh = getSharedPreferences(this.sharedPreferencesFileName, MODE_PRIVATE);
+//                Set<String> set = sh.getStringSet("notificationTimes", null);
+
+                Set<String> set = NotificationManager.getInstance().getSet();
+
+                if(set != null){
+                    for (String time:set) {
+
+                        Log.i("app",time);
+                        Time t = Time.valueOf(time);
+                        long tt = t.getTime();
+
+                        AlarmManager alarmManager = (AlarmManager)(this.getApplicationContext().getSystemService(ALARM_SERVICE));
+
+                        Intent i1 = new Intent(this.getApplicationContext(), AlarmsBoradcastReceiver.class);
+                        i1.setAction("com.example.easyfit.NOTIFICATION");
+
+                        PendingIntent pd = PendingIntent.getBroadcast(this.getApplicationContext(), (int)tt, i1, 0);
+                        alarmManager.cancel(pd);
+
+                        NotificationManager.getInstance().delete(t);
+
+
+                    }
+                }
+
+
                 logout();
                 break;
         }

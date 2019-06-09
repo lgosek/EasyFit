@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -15,14 +16,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.easyfit.R;
+import com.example.easyfit.apiConnector.Connector;
+import com.example.easyfit.apiConnector.Notification;
 import com.example.easyfit.notifications.NotificationManager;
 import com.example.easyfit.receivers.AlarmsBoradcastReceiver;
 
 import java.sql.Time;
+import java.util.Set;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.content.Context.ALARM_SERVICE;
+import static android.content.Context.MODE_PRIVATE;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationHolder> {
 
@@ -106,6 +116,24 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
                     NotificationManager.getInstance().delete(t);
                     NotificationAdapter.super.notifyDataSetChanged();
+
+                    SharedPreferences sh = context.getSharedPreferences("com.example.easyfit.sharedpreferences", MODE_PRIVATE);
+                    int userID = sh.getInt("loggedInId", -1);
+
+                    Call<Void> call = Connector.getInstance().deleteNotification(userID,new Notification(time.getText().toString()+":00"));
+                    call.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if(!response.isSuccessful()){
+                                Toast.makeText(context, "Problem z usunięciem z bazy", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            Toast.makeText(context, "Problem z połączeniem", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     return true;
                 }
             });
@@ -117,7 +145,22 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             public void onTimeSet(TimePicker view, int hourOfDay, int minutes) {
                 hr = hourOfDay;
                 min = minutes;
-                String time = new StringBuilder().append(hr).append(":").append(min).append(":00").toString();
+
+                String hour;
+                String minute;
+
+                if(hr<10){
+                    hour = "0"+hr;
+                }else{
+                    hour = ""+hr;
+                }
+
+                if(min<10){
+                    minute = "0"+min;
+                }else{
+                    minute = ""+min;
+                }
+                String time = new StringBuilder().append(hour).append(":").append(minute).append(":00").toString();
 
                 Time t = Time.valueOf(NotificationHolder.this.time.getText().toString()+":00");
                 long tt = t.getTime();
@@ -141,7 +184,42 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 //                pd = PendingIntent.getBroadcast(context, (int)Time.valueOf(time).getTime(), i1, 0);
 //                alarmManager.setRepeating(AlarmManager.RTC, triggerTime, AlarmManager.INTERVAL_DAY, pd);
 
+
+
+                SharedPreferences sh = context.getSharedPreferences("com.example.easyfit.sharedpreferences", MODE_PRIVATE);
+                int userID = sh.getInt("loggedInId", -1);
+
+                Call<Void> callDelete = Connector.getInstance().deleteNotification(userID,new Notification(NotificationHolder.this.time.getText().toString()+":00"));
+                callDelete.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if(!response.isSuccessful()){
+                            Toast.makeText(context, "Problem z usunięciem z bazy", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(context, "Problem z połączeniem", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
                 NotificationManager.getInstance().setAlarm(context, time, hr, min);
+
+                Call<Void> callCreate = Connector.getInstance().addNotification(userID,new Notification(time));
+                callCreate.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if(!response.isSuccessful()){
+                            Toast.makeText(context, "Problem z dodaniem do bazy", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(context, "Problem z połączeniem", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
                 // rest
                 NotificationManager.getInstance().edit(t, Time.valueOf(time));

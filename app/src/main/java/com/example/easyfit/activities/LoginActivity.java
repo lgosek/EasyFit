@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -87,8 +88,10 @@ public class LoginActivity extends AppCompatActivity {
 
                                     Matcher matcher = pattern.matcher(time);
                                     if(matcher.matches()){
+                                        Log.i("app", time);
                                         int hr = Integer.parseInt(matcher.group(1));
                                         int min = Integer.parseInt(matcher.group(2));
+                                        Log.i("app",""+hr+" "+min);
 
                                         NotificationManager.getInstance().setAlarm(thisReference.getApplicationContext(),time,hr,min);
                                         NotificationManager.getInstance().add(Time.valueOf(time));
