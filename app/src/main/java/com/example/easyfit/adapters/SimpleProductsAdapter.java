@@ -18,6 +18,7 @@ import com.example.easyfit.activities.ChooseIngredientActivity;
 import com.example.easyfit.apiConnector.SimpleProduct;
 import com.example.easyfit.clickListeners.ItemClickListener;
 import com.example.easyfit.dialogs.QuantityDialog;
+import com.example.easyfit.dialogs.SimpleProductDialog;
 
 import java.util.List;
 
@@ -68,10 +69,17 @@ public class SimpleProductsAdapter extends RecyclerView.Adapter<SimpleProductsAd
             simpleProductsHolder.setItemClickListener(new ItemClickListener() {
                 @Override
                 public void onClick(View view, int position, boolean isLongClick) {
+                    showDetails(position);
 //                    Toast.makeText(context, "clicked in products" + position, Toast.LENGTH_SHORT).show();
                 }
             });
         }
+    }
+
+    private void showDetails(int position) {
+        SimpleProductDialog dialog = new SimpleProductDialog();
+        dialog.setProduct(products.get(position));
+        dialog.show(((AppCompatActivity)context).getSupportFragmentManager(), "SIMPLE_PRODUCT_DIALOG");
     }
 
     private void addingProductAction(int position, boolean ifAddingProduct) {

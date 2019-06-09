@@ -66,5 +66,8 @@ public interface JsonPlaceHolderApi {
     @POST("/eatenComplexMeal")
     Call<Void>saveEatenComplexMeal(@Body NewEatenComplexMeal meal);
 
+    @GET("/complexMealDetailed/{id}")
+    Call<ComplexMealDetailed>getComplexMealDetailed(@Path("id") int id);
+
 
 }
